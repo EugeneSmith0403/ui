@@ -1,0 +1,6 @@
+export const USER_SIGN_UP = 'USER_SIGN_UP'
+export const USER_SIGN_UP_REQUEST = 'USER_SIGN_UP_REQUEST'
+export const USER_ERROR = 'USER_ERROR'
+
+export const USER_LOGIN = 'USER_LOGIN'
+export const USER_LOGIN_REQUEST = 'USER_LOGIN_REQUEST'
