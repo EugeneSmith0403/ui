@@ -7,7 +7,7 @@ const SignupPage = ({signup}) => {
   return (
     <div>
     <h1>SignupPage</h1>
-    <EnterForm submit={signup}/>
+      <EnterForm submit={signup}/>
     </div>
   )
 }
