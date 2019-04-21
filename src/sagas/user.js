@@ -8,12 +8,15 @@ import {
   logout
 } from './../actions/auth'
 
+import {userError} from './../actions/errors'
+
 
 import {call, put} from 'redux-saga/effects'
 import { push } from 'connected-react-router'
 import crypto from 'crypto'
 const algorithm = 'aes-256-ctr';
 
+/*TODO вынести в хелпер*/
 function encrypt(text, password){
   var cipher = crypto.createCipher(algorithm, password)
   var crypted = cipher.update(text,'utf8','hex')
@@ -37,7 +40,7 @@ export function* signupSaga(action) {
   //  yield put(push('/'));
 
   }catch(e) {
-    yield put(userErrorAction(e.response.data.errors))
+    yield put(userError(e.response))
   }
 
 }
@@ -52,7 +55,7 @@ export function* confirmEntranceSaga(action) {
     yield put(confirmEntranceSignup(userInfo))
   }
   catch(e) {
-    yield put(userErrorAction(e.response.data.errors))
+    yield put(userError(e.response))
   }
 }
 
@@ -69,7 +72,7 @@ export function* fetchUserSaga() {
       localStorage.setItem('jwt-refresh', response.refreshToken)
       yield put(fetchUser(response))
     }catch(e){
-      yield put(userErrorAction(e.response.data.errors))
+      yield put(userError(e.response))
     }
   }
 }
@@ -88,23 +91,25 @@ export function* loginSaga(action) {
     localStorage.setItem('jwt-access', "Bearer " + request.accessToken)
     localStorage.setItem('jwt-refresh', request.refreshToken)
     yield put(loginAction(request))
+    yield put(push('/'))
 
   }catch(e) {
-    yield put(userErrorAction(e.response.data.errors))
+    yield put(userError(e.response))
   }
 }
 
 export function* logoutSaga() {
   try{
-    const refreshToken = localStorage.getItem('jwt-refresh')
-    const request = yield api.user.logout(refreshToken);
+    const accessToken = localStorage.getItem('jwt-access')
+    let clearTokenn = accessToken && accessToken.split(' ')[1]
+    const request = yield api.user.logout(clearTokenn);
     localStorage.removeItem('jwt-access')
     localStorage.removeItem('jwt-refresh')
     yield put(logout({}))
     yield put(push('/'));
 
   }catch(e) {
-
+    yield put(userError(e.response))
   }
 
 }

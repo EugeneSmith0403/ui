@@ -26,18 +26,17 @@ export default function user (state = { loading: true, errors: {} }, action = {}
         loading: false
       }
       case FETCH_USER:
-        console.log(action.user)
         return {
           ...state,
           ...action.user,
           loading: false
         }
-      case USER_ERROR:
+    /*  case USER_ERROR:
       return {
         ...state,
         errors: action.error,
         loading: false
-      }
+      } */
       case LOGOUT:
         return {}
       default:

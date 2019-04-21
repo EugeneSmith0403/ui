@@ -11,6 +11,6 @@ export default {
       .post('/api/fetchCurrentUser', params)
       .then(res=>res.data.results.user),
     login: (credentials) => axios.post('/api/login', credentials).then(user=>user.data.results.user),
-    logout: (refreshToken) => axios.post('/api/logout', {refreshToken}).then(result=> result.data.results)
+    logout: (accessToken) => axios.post('/api/logout', {accessToken}).then(result=> result.data.results)
   }
 }

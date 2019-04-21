@@ -11,31 +11,32 @@ import SideMenu from './components/nav/SideMenu'
 import {Route, Router} from 'react-router-dom'
 import { Grid } from 'semantic-ui-react'
 import history from './history'
+import UserErrors from './components/errors/userErrors'
 
 class App extends Component {
   render() {
     return (
       <div className="ui">
-      <Grid>
-      <Grid.Row>
-        <Grid.Column width={3}>
-          <div>
-            <SideMenu />
-            </div>
-        </Grid.Column>
-        <Grid.Column width={10}>
-          <div className="ui container">
-            <Router history={history}>
-              <GuestRoute exact path="/" component={HomePage} />
-              <GuestRoute path="/signup" component={SignupPage} />
-              <GuestRoute path="/login" component={LoginPage} />
-              <PendingConfirmRoute path="/confirmEntrance/:hash" component={ConfirmEntrancePage} />
-            </Router>
-          </div>
-        </Grid.Column>
-      </Grid.Row>
-      </Grid >
-
+        <Grid>
+          <UserErrors />
+          <Grid.Row>
+            <Grid.Column width={3}>
+              <div>
+                <SideMenu />
+                </div>
+            </Grid.Column>
+            <Grid.Column width={10}>
+              <div className="ui container">
+                <Router history={history}>
+                  <GuestRoute exact path="/" component={HomePage} />
+                  <GuestRoute path="/signup" component={SignupPage} />
+                  <GuestRoute path="/login" component={LoginPage} />
+                  <PendingConfirmRoute path="/confirmEntrance/:hash" component={ConfirmEntrancePage} />
+                </Router>
+              </div>
+            </Grid.Column>
+          </Grid.Row>
+        </Grid >
       </div>
     );
   }

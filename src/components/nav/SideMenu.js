@@ -1,32 +1,15 @@
 import React, {Component} from 'react'
-import {Menu} from 'semantic-ui-react'
-import {Link} from 'react-router-dom'
-import {connect} from 'react-redux'
-import {logoutRequest} from './../../actions/auth'
+import MenuNav from './LogoutNav'
+import AuthPermission from './../renderingPermission/AuthPermision'
 
-const SideMenu = ({isAuth, logout}) => {
+
+const SideMenu = () => {
   return (
     <div className="ui">
-    <Menu pointing vertical>
-      <Link to="/">
-        <Menu.Item name='home' active={false}/>
-      </Link>
-      {isAuth &&
-        <Menu.Item
-          onClick={()=>logout()}
-          name='logout'
-          />
-      }
-      </Menu>
+      <AuthPermission component={MenuNav} />
       </div>
   )
 }
 
-const mapStateToProps = (state, ownProps) => {
-  return {
-    isAuth: !!state.user.email
-  }
 
-}
-
-export default connect(mapStateToProps, { logout: logoutRequest })(SideMenu)
+export default SideMenu
