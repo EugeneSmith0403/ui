@@ -1,7 +1,25 @@
 import api from './../api'
-import {signupAction, userErrorAction, confirmEntranceSignup, loginAction, fetchUser} from './../actions/auth'
+import {
+  signupAction,
+  userErrorAction,
+  confirmEntranceSignup,
+  loginAction,
+  fetchUser,
+  logout
+} from './../actions/auth'
+
+
 import {call, put} from 'redux-saga/effects'
 import { push } from 'connected-react-router'
+import crypto from 'crypto'
+const algorithm = 'aes-256-ctr';
+
+function encrypt(text, password){
+  var cipher = crypto.createCipher(algorithm, password)
+  var crypted = cipher.update(text,'utf8','hex')
+  crypted += cipher.final('hex');
+  return crypted;
+}
 
 export function* signupSaga(action) {
   const params = {
@@ -9,10 +27,10 @@ export function* signupSaga(action) {
   }
   try{
     const key = yield api.user.checkUserSignUp({email: params.email});
-
+    //TODO какая то херня с логикой шифрования пароля надо пофиксить
     const request = yield api.user.signup({
       email: params.email,
-      password: key
+      password: encrypt(params.password, key.toString())
     })
     yield put(signupAction(request))
     localStorage.setItem('publicKey', request.publicKey);
@@ -22,19 +40,6 @@ export function* signupSaga(action) {
     yield put(userErrorAction(e.response.data.errors))
   }
 
-}
-
-export function* loginSaga(action) {
-  try{
-    const params = {
-      ...action.user
-    }
-    const request = yield api.user.login(params)
-    yield put(loginAction(request))
-
-  }catch(e) {
-    yield put(userErrorAction(e.response.data.errors))
-  }
 }
 
 export function* confirmEntranceSaga(action) {
@@ -55,13 +60,11 @@ export function* fetchUserSaga() {
   try{
     const accessToken = localStorage.getItem('jwt-access') || null
     const response = yield api.user.fetchCurrentUser({accessToken})
-    console.log(response)
     yield put(fetchUser(response))
   } catch(e) {
     try{
       const refreshToken = localStorage.getItem('jwt-refresh')
       const response = yield api.user.fetchCurrentUser({refreshToken})
-      console.log(response)
       localStorage.setItem('jwt-access', "Bearer " + response.accessToken)
       localStorage.setItem('jwt-refresh', response.refreshToken)
       yield put(fetchUser(response))
@@ -69,4 +72,39 @@ export function* fetchUserSaga() {
       yield put(userErrorAction(e.response.data.errors))
     }
   }
+}
+
+export function* loginSaga(action) {
+  try{
+    const params = {
+      ...action.user
+    }
+    const key = yield api.user.checkUserLogin({email: params.email});
+
+    const request = yield api.user.login({
+      email: params.email,
+      password: encrypt(params.password, key.toString())
+    })
+    localStorage.setItem('jwt-access', "Bearer " + request.accessToken)
+    localStorage.setItem('jwt-refresh', request.refreshToken)
+    yield put(loginAction(request))
+
+  }catch(e) {
+    yield put(userErrorAction(e.response.data.errors))
+  }
+}
+
+export function* logoutSaga() {
+  try{
+    const refreshToken = localStorage.getItem('jwt-refresh')
+    const request = yield api.user.logout(refreshToken);
+    localStorage.removeItem('jwt-access')
+    localStorage.removeItem('jwt-refresh')
+    yield put(logout({}))
+    yield put(push('/'));
+
+  }catch(e) {
+
+  }
+
 }

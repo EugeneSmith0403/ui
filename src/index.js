@@ -13,7 +13,7 @@ import rootReducer from './rootReducer'
 import rootSaga from './rootSaga'
 import { routerMiddleware, push } from 'connected-react-router'
 import { ConnectedRouter } from 'connected-react-router'
-import {fetchUserRequest ,fetchUser} from './actions/auth'
+import {fetchUserRequest, fetchUser} from './actions/auth'
 
 const sagaMiddleware = createSagaMiddleware();
 const routingMiddleware = routerMiddleware(history)
@@ -30,7 +30,6 @@ if(localStorage.getItem('jwt-access')) {
 
 if(!localStorage.getItem('jwt-access')) {
   //  store.dispatch(push('/'))
-    store.dispatch(fetchUserRequest())
 }else {
   localStorage.removeItem('publicKey')
   store.dispatch(fetchUser({}))

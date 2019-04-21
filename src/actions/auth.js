@@ -6,7 +6,9 @@ import {USER_SIGN_UP,
   CONFIRM_ENTRANCE_SIGNUP ,
   CONFIRM_ENTRANCE_SIGNUP_REQUEST,
   FETCH_USER_REQUEST,
-  FETCH_USER
+  FETCH_USER,
+  LOGOUT_REQUEST,
+  LOGOUT
  } from './../types'
 
 export const signupAction = (user) => ({
@@ -49,4 +51,13 @@ export const fetchUserRequest = (user) => ({
 export const fetchUser = (user) => ({
   type: FETCH_USER,
   user
+})
+
+
+export const logoutRequest = () => ({
+  type: LOGOUT_REQUEST
+})
+
+export const logout =() => ({
+  type: LOGOUT
 })

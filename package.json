@@ -4,7 +4,9 @@
   "private": true,
   "dependencies": {
     "axios": "^0.18.0",
+    "bcrypt": "^3.0.6",
     "connected-react-router": "^6.3.2",
+    "crypto": "^1.0.1",
     "eslint-config-airbnb": "^17.1.0",
     "eslint-config-prettier": "^4.1.0",
     "eslint-plugin-import": "^2.16.0",
@@ -12,6 +14,7 @@
     "eslint-plugin-prettier": "^3.0.1",
     "eslint-plugin-react": "^7.12.4",
     "history": "^4.9.0",
+    "md5": "^2.2.1",
     "prettier": "^1.16.4",
     "prop-type": "^0.0.1",
     "react": "^16.8.6",

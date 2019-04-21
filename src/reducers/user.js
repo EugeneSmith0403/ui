@@ -3,7 +3,8 @@ import {
   USER_SIGN_UP,
   USER_LOGIN ,
   USER_ERROR,
-  CONFIRM_ENTRANCE_SIGNUP
+  CONFIRM_ENTRANCE_SIGNUP,
+  LOGOUT
 } from './../types'
 
 export default function user (state = { loading: true, errors: {} }, action = {}) {
@@ -25,9 +26,11 @@ export default function user (state = { loading: true, errors: {} }, action = {}
         loading: false
       }
       case FETCH_USER:
+        console.log(action.user)
         return {
           ...state,
-          ...action.user
+          ...action.user,
+          loading: false
         }
       case USER_ERROR:
       return {
@@ -35,6 +38,8 @@ export default function user (state = { loading: true, errors: {} }, action = {}
         errors: action.error,
         loading: false
       }
+      case LOGOUT:
+        return {}
       default:
         return state
     }
