@@ -9,6 +9,9 @@ const MenuNav = ({logout}) =>
     <Link to="/">
       <Menu.Item name='home' active={false}/>
     </Link>
+    <Link to="/profile">
+      <Menu.Item name='profile' active={false}/>
+    </Link>
       <Menu.Item onClick={()=>logout()} name='logout' />
   </Menu>
 

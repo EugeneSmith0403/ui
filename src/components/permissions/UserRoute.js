@@ -3,15 +3,17 @@ import {connect} from 'react-redux'
 import PropTypes from 'prop-types'
 import { Route, Redirect } from "react-router-dom";
 
-const UserRoute = ({isAuthenticated, component:Component, ...routeProps}) => {
+const UserRoute = ({isAuthenticated, component:Component, ...rest}) => {
   return (
-    <Route {...routeProps} render={props=> !isAuthenticated ? <Redirect to="/" />: <Component {...props} />}/>
+    <Route {...rest} render={props=> !isAuthenticated ?
+      <Redirect to="/" />:
+      <Component {...props} />}/>
   )
 }
 
 const mapStateToProps = (state, ownProps) => {
   return {
-    isAuthenticated: !!state.user.token
+    isAuthenticated: state.user.email
   }
 }
 

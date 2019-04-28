@@ -8,9 +8,10 @@ import AuthPermission from './../renderingPermission/AuthPermision'
 import DashboardInfo from './../dashboardInfo/HomeInfo'
 
 const HomePage = () => {
+  const height = { height: '100%' }
   return (
     <div>
-      <Grid columns={12} textAlign='center' style={{ height: '100%' }} verticalAlign='middle'>
+      <Grid columns={12} textAlign='center' style={height} verticalAlign='middle'>
         <Grid.Row>
             <h1>Welcome to our serves</h1>
         </Grid.Row>

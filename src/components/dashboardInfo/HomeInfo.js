@@ -5,10 +5,10 @@ import {connect} from 'react-redux'
 
 const DashboardInfo = ({userName}) => {
   return (
-    <h2 class="ui header">
+    <h2 className="ui header">
       <Icon name="meh" size='big'/>
-      <div class="content">
-        <div class="sub header">  This this your account, {userName} </div>
+      <div className="content">
+        <div className="sub header">  This this your account, {userName} </div>
       </div>
     </h2>
   )

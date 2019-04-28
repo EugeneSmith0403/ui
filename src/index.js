@@ -32,7 +32,7 @@ if(!localStorage.getItem('jwt-access')) {
   //  store.dispatch(push('/'))
 }else {
   localStorage.removeItem('publicKey')
-  store.dispatch(fetchUser({}))
+//  store.dispatch(fetchUser({}))
 }
 
 
