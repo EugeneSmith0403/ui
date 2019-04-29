@@ -7,10 +7,10 @@ export default {
     confirmEntranceSignup: (mailToken)=> axios
       .post('/api/confirmEntranceSignup', {mailToken})
       .then(res=>res.data.results),
-    fetchCurrentUser: (params)=> axios
-      .post('/api/fetchCurrentUser', params)
+    fetchCurrentUser: ()=> axios
+      .post('/api/fetchCurrentUser')
       .then(res=>res.data.results.user),
     login: (credentials) => axios.post('/api/login', credentials).then(user=>user.data.results.user),
-    logout: (accessToken) => axios.post('/api/logout', {accessToken}).then(result=> result.data.results)
+    logout: () => axios.post('/api/logout').then(result=> result.data.results)
   }
 }

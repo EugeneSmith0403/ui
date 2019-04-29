@@ -9,6 +9,7 @@ import {
 } from './../actions/auth'
 
 import {userError} from './../actions/errors'
+import setToken from './../helpers/setToken'
 
 
 import {call, put} from 'redux-saga/effects'
@@ -62,13 +63,15 @@ export function* confirmEntranceSaga(action) {
 export function* fetchUserSaga() {
   try{
     const accessToken = localStorage.getItem('jwt-access') || null
-    const response = yield api.user.fetchCurrentUser({accessToken})
+    setToken(accessToken)
+    const response = yield api.user.fetchCurrentUser()
     yield put(fetchUser(response))
   } catch(e) {
     try{
       const refreshToken = localStorage.getItem('jwt-refresh')
-      const response = yield api.user.fetchCurrentUser({refreshToken})
-      localStorage.setItem('jwt-access', "Bearer " + response.accessToken)
+      setToken(refreshToken)
+      const response = yield api.user.fetchCurrentUser()
+      localStorage.setItem('jwt-access',  response.accessToken)
       localStorage.setItem('jwt-refresh', response.refreshToken)
       yield put(fetchUser(response))
     }catch(e){
@@ -88,7 +91,7 @@ export function* loginSaga(action) {
       email: params.email,
       password: encrypt(params.password, key.toString())
     })
-    localStorage.setItem('jwt-access', "Bearer " + request.accessToken)
+    localStorage.setItem('jwt-access', request.accessToken)
     localStorage.setItem('jwt-refresh', request.refreshToken)
     yield put(loginAction(request))
     yield put(push('/'))
@@ -101,8 +104,9 @@ export function* loginSaga(action) {
 export function* logoutSaga() {
   try{
     const accessToken = localStorage.getItem('jwt-access')
-    let clearTokenn = accessToken && accessToken.split(' ')[1]
-    const request = yield api.user.logout(clearTokenn);
+    let clearToken = accessToken && accessToken.split(' ')[1]
+    setToken(clearToken)
+    const request = yield api.user.logout();
     localStorage.removeItem('jwt-access')
     localStorage.removeItem('jwt-refresh')
     yield put(logout({}))
