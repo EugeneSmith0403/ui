@@ -7,23 +7,14 @@ import {
   fetchUser,
   logout
 } from './../actions/auth'
+import { updateProfile } from './../actions/user'
 
 import {userError} from './../actions/errors'
 import setToken from './../helpers/setToken'
-
-
 import {call, put} from 'redux-saga/effects'
 import { push } from 'connected-react-router'
-import crypto from 'crypto'
-const algorithm = 'aes-256-ctr';
-
-/*TODO вынести в хелпер*/
-function encrypt(text, password){
-  var cipher = crypto.createCipher(algorithm, password)
-  var crypted = cipher.update(text,'utf8','hex')
-  crypted += cipher.final('hex');
-  return crypted;
-}
+import { encrypt } from './../helpers/encrypt'
+import sendDataWithTokenSaga, { helperSagaRequest } from './utils/sagaCheckToken'
 
 export function* signupSaga(action) {
   const params = {
@@ -61,23 +52,14 @@ export function* confirmEntranceSaga(action) {
 }
 
 export function* fetchUserSaga() {
-  try{
-    const accessToken = localStorage.getItem('jwt-access') || null
-    setToken(accessToken)
-    const response = yield api.user.fetchCurrentUser()
-    yield put(fetchUser(response))
-  } catch(e) {
-    try{
-      const refreshToken = localStorage.getItem('jwt-refresh')
-      setToken(refreshToken)
-      const response = yield api.user.fetchCurrentUser()
-      localStorage.setItem('jwt-access',  response.accessToken)
-      localStorage.setItem('jwt-refresh', response.refreshToken)
-      yield put(fetchUser(response))
-    }catch(e){
-      yield put(userError(e.response))
-    }
-  }
+  yield sendDataWithTokenSaga(
+    helperSagaRequest(api.user.fetchCurrentUser, {}), fetchUser
+  );
+}
+export function* updateUserProfileSaga(action) {
+  yield sendDataWithTokenSaga(
+    helperSagaRequest(api.user.updateProfile, action.data), updateProfile
+  )
 }
 
 export function* loginSaga(action) {
@@ -104,8 +86,7 @@ export function* loginSaga(action) {
 export function* logoutSaga() {
   try{
     const accessToken = localStorage.getItem('jwt-access')
-    let clearToken = accessToken && accessToken.split(' ')[1]
-    setToken(clearToken)
+    setToken(accessToken)
     const request = yield api.user.logout();
     localStorage.removeItem('jwt-access')
     localStorage.removeItem('jwt-refresh')

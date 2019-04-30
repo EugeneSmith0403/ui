@@ -39,10 +39,11 @@ function Previews(props) {
   const {getRootProps, getInputProps} = useDropzone({
     accept: 'image/*',
     onDrop: acceptedFiles => {
+      props.onChangeFile(acceptedFiles)
       setFiles(acceptedFiles.map(file => Object.assign(file, {
         preview: URL.createObjectURL(file)
       })));
-    }
+    },
   });
 
   const thumbs = files.map(file => (
@@ -60,7 +61,6 @@ function Previews(props) {
     // Make sure to revoke the data uris to avoid memory leaks
     files.forEach(file => URL.revokeObjectURL(file.preview));
   }, [files]);
-
   return (
     <section className="container">
       <div {...getRootProps({className: 'dropzone'})}>

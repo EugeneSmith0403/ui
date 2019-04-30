@@ -4,7 +4,8 @@ import {
   USER_LOGIN ,
   USER_ERROR,
   CONFIRM_ENTRANCE_SIGNUP,
-  LOGOUT
+  LOGOUT,
+  USER_PROFILE_UPDATED
 } from './../types'
 
 export default function user (state = { loading: true, errors: {} }, action = {}) {
@@ -29,6 +30,12 @@ export default function user (state = { loading: true, errors: {} }, action = {}
         return {
           ...state,
           ...action.user,
+          loading: false
+        }
+      case USER_PROFILE_UPDATED:
+        return {
+          ...state,
+          ...action.data,
           loading: false
         }
     /*  case USER_ERROR:

@@ -2,13 +2,22 @@ import React, {Component} from 'react'
 import { Button, Form, Message, Grid, Label } from 'semantic-ui-react'
 import PropTypes from 'prop-types'
 import validator from 'validator'
-import {connect} from 'react-redux'
 import Previews from './../dragAndDrop'
+import {connect} from 'react-redux'
 
 class ProfileForm extends Component {
 
   componentWillMount() {
-  //  this.init(this.props.data)
+    const {username, email, age, image, phone} = this.props.user
+    this.setState({
+      data: {
+        username,
+        email,
+        age,
+        image,
+        phone
+      }
+    })
   }
 
   state = {
@@ -22,20 +31,32 @@ class ProfileForm extends Component {
     errors: {}
   }
 
-  onChange = (e) => {
+  onChange = e => this.setState({
+    data: {
+      ...this.state.data,
+      [e.target.name]: e.target.value
+    }
+  })
+  onChangeNumber = e =>this.setState({
+    data: {
+      ...this.state.data,
+      [e.target.name]: parseInt(e.target.value)
+    }
+  })
+  onChangeFile = (file)=> {
+    let data = new FormData();
+    data.append('image', file[0], file[0].name)
+      console.log(data)
     this.setState({
-      [e.target.name]:e.target.value
+      data:{
+        ...this.state.data,
+        file: data
+      }
     })
   }
 
   onSubmit = () => {
-    //send data this.state.data
-  }
-
-  init = (data) => {
-    this.setState({
-      data
-    })
+    this.props.update(this.state.data)
   }
 
   render() {
@@ -58,19 +79,30 @@ class ProfileForm extends Component {
                 value={username}
                 type="text"
                 onChange={this.onChange}
-                placeholder='joe@schmoe.com' />
-                { errors.password && <Message
+                placeholder='joe' />
+                { errors.username && <Message
                   error
                   header={errors.username}
                 /> }
+                <Form.Input
+                  label='Email'
+                  name='email'
+                  value={email}
+                  type="text"
+                  onChange={this.onChange}
+                  placeholder='joe@schmoe.com' />
+                  { errors.email && <Message
+                    error
+                    header={errors.email}
+                  /> }
                 <Form.Input
                   label='age'
                   name='age'
                   value={age}
                   type="number"
-                  onChange={this.onChange}
+                  onChange={this.onChangeNumber}
                   placeholder='23' />
-                  { errors.password && <Message
+                  { errors.username && <Message
                     error
                     header={errors.password}
                   /> }
@@ -87,7 +119,10 @@ class ProfileForm extends Component {
                <Label>
                 Image
               </Label>
-              <Previews />
+              {
+                image ? <img src={image} alt='' with='50' height='50' /> : ''
+              }
+              <Previews onChangeFile={this.onChangeFile}/>
            </Grid.Column>
          </Grid.Row>
        </Grid>
@@ -98,4 +133,22 @@ class ProfileForm extends Component {
   }
 }
 
-export default connect()(ProfileForm)
+ProfileForm.propTypes = {
+  update: PropTypes.func.isRequired,
+  user:  PropTypes.shape({
+    username: PropTypes.string,
+    email: PropTypes.string,
+    age: PropTypes.number,
+    image: PropTypes.string,
+    phone: PropTypes.string
+  }),
+}
+
+
+const mapStateToProps = (state) => {
+  return {
+    user: state.user
+  }
+}
+
+export default connect(mapStateToProps)(ProfileForm)

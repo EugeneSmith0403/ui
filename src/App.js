@@ -15,6 +15,7 @@ import history from './history'
 import UserErrors from './components/errors/userErrors'
 import {connect} from 'react-redux'
 import {fetchUserRequest} from './actions/auth'
+import Loader from 'react-loader'
 
 class App extends Component {
   componentWillMount() {
@@ -23,6 +24,7 @@ class App extends Component {
   render() {
     return (
       <div className="ui">
+    <Loader loaded={!this.props.loaded}>
         <Grid>
           <UserErrors />
           <Grid.Row>
@@ -44,6 +46,7 @@ class App extends Component {
             </Grid.Column>
           </Grid.Row>
         </Grid >
+        </Loader>
       </div>
     );
   }
@@ -51,7 +54,8 @@ class App extends Component {
 
 const mapStateToProps = (state) => {
   return {
-    isAuthenticated: state.user.email
+    isAuthenticated: state.user.email,
+    loaded: state.user.loading
   }
 }
 

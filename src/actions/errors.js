@@ -3,8 +3,8 @@ import {
 } from './../types'
 
 export const userError = (error) =>{
-  localStorage.removeItem('jwt-access')
-  localStorage.removeItem('jwt-refresh')
+//  localStorage.removeItem('jwt-access')
+//  localStorage.removeItem('jwt-refresh')
   return {
     type: USER_ERROR,
     error
