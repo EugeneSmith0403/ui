@@ -75,7 +75,12 @@ export function* loginSaga(action) {
     })
     localStorage.setItem('jwt-access', request.accessToken)
     localStorage.setItem('jwt-refresh', request.refreshToken)
-    yield put(loginAction(request))
+    const currentUser = {
+        username: request.username,
+        email: request.email,
+        confirmed: request.confirmed
+    }
+    yield put(loginAction(currentUser))
     yield put(push('/'))
 
   }catch(e) {

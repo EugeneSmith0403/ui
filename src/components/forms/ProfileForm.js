@@ -4,6 +4,7 @@ import PropTypes from 'prop-types'
 import validator from 'validator'
 import Previews from './../dragAndDrop'
 import {connect} from 'react-redux'
+import _ from 'lodash'
 
 class ProfileForm extends Component {
 
@@ -44,19 +45,27 @@ class ProfileForm extends Component {
     }
   })
   onChangeFile = (file)=> {
-    let data = new FormData();
-    data.append('image', file[0], file[0].name)
-      console.log(data)
     this.setState({
       data:{
         ...this.state.data,
-        file: data
+        file:  file[0]
       }
     })
   }
+  convertDataToForm(data) {
+    let formData = new FormData()
+    _.forEach(data, (value, prop)=>{
+      if(value){
+        formData.append(prop, value)
+      }
+    })
+    return formData
+  }
 
   onSubmit = () => {
-    this.props.update(this.state.data)
+    let data = this.convertDataToForm(this.state.data)
+    console.log(data)
+    this.props.update(data)
   }
 
   render() {

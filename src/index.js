@@ -26,15 +26,10 @@ sagaMiddleware.run(rootSaga)
 
 if(localStorage.getItem('jwt-access')) {
   store.dispatch(fetchUserRequest())
-}
-
-if(!localStorage.getItem('jwt-access')) {
-  //  store.dispatch(push('/'))
 }else {
   localStorage.removeItem('publicKey')
-//  store.dispatch(fetchUser({}))
+  store.dispatch(fetchUser({}))
 }
-
 
 ReactDOM.render(
   <BrowserRouter>

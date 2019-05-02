@@ -8,45 +8,49 @@ import {
   USER_PROFILE_UPDATED
 } from './../types'
 
-export default function user (state = { loading: true, errors: {} }, action = {}) {
+export default function user (state = { loaded: false, errors: {} }, action = {}) {
     switch(action.type) {
       case USER_SIGN_UP:
         return {
           ...action.user,
-          loading: false
+          loaded: true
         }
       case USER_LOGIN:
       return {
         ...action.user,
-        loading: false
+        loaded: true
       }
       case CONFIRM_ENTRANCE_SIGNUP:
       return {
         ...state,
         ...action.user,
-        loading: false
+        loaded: true
       }
       case FETCH_USER:
         return {
           ...state,
           ...action.user,
-          loading: false
+          loaded: true
         }
       case USER_PROFILE_UPDATED:
         return {
           ...state,
           ...action.data,
-          loading: false
+          loaded: true
         }
     /*  case USER_ERROR:
       return {
         ...state,
         errors: action.error,
-        loading: false
+        loaded: false
       } */
       case LOGOUT:
-        return {}
+        return {
+          loaded: true
+        }
       default:
-        return state
+        return {
+          ...state
+        }
     }
 }

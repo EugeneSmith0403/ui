@@ -24,7 +24,7 @@ class App extends Component {
   render() {
     return (
       <div className="ui">
-    <Loader loaded={!this.props.loaded}>
+    <Loader loaded={this.props.loaded}>
         <Grid>
           <UserErrors />
           <Grid.Row>
@@ -53,9 +53,10 @@ class App extends Component {
 }
 
 const mapStateToProps = (state) => {
+  console.log(state.user.loaded)
   return {
     isAuthenticated: state.user.email,
-    loaded: state.user.loading
+    loaded: state.user.loaded
   }
 }
 
