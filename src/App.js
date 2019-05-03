@@ -16,6 +16,7 @@ import UserErrors from './components/errors/userErrors'
 import {connect} from 'react-redux'
 import {fetchUserRequest} from './actions/auth'
 import Loader from 'react-loader'
+import TopMenu from './components/nav/TopMenu'
 
 class App extends Component {
   componentWillMount() {
@@ -24,16 +25,14 @@ class App extends Component {
   render() {
     return (
       <div className="ui">
+        <div className="container">
+          <TopMenu />
+        </div>
     <Loader loaded={this.props.loaded}>
         <Grid>
           <UserErrors />
           <Grid.Row>
-            <Grid.Column width={3}>
-              <div>
-                <SideMenu />
-                </div>
-            </Grid.Column>
-            <Grid.Column width={10}>
+            <Grid.Column center>
               <div className="ui container">
                 <Router history={history}>
                   <GuestRoute exact path="/" component={HomePage} />

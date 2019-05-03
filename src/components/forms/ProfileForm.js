@@ -1,24 +1,41 @@
 import React, {Component} from 'react'
-import { Button, Form, Message, Grid, Label } from 'semantic-ui-react'
+import { Button, Form, Message, Grid, Label, Image } from 'semantic-ui-react'
 import PropTypes from 'prop-types'
 import validator from 'validator'
 import Previews from './../dragAndDrop'
 import {connect} from 'react-redux'
 import _ from 'lodash'
+import PositiveMessage  from './../messages/PositiveMessage'
+
+const imageHost = 'http://localhost:8080/'
 
 class ProfileForm extends Component {
 
+  _initData: null
   componentWillMount() {
     const {username, email, age, image, phone} = this.props.user
+    const data = {
+      username,
+      email,
+      age,
+      image,
+      phone
+    }
     this.setState({
-      data: {
-        username,
-        email,
-        age,
-        image,
-        phone
-      }
+      data
     })
+    this._initData = data
+  }
+
+  set initData(value) {
+    this._initData = value
+  }
+
+  get initData() {
+    return this._initData
+  }
+  isChanged = () => {
+    return _.differenceWith([this.state.data, this._initData], [this._initData], _.isEqual).length
   }
 
   state = {
@@ -27,8 +44,9 @@ class ProfileForm extends Component {
       email: '',
       age: 0,
       image: '',
-      phone: ''
+      phone: '',
     },
+    updated: false,
     errors: {}
   }
 
@@ -45,6 +63,7 @@ class ProfileForm extends Component {
     }
   })
   onChangeFile = (file)=> {
+    this.setState({updated: false})
     this.setState({
       data:{
         ...this.state.data,
@@ -64,14 +83,21 @@ class ProfileForm extends Component {
 
   onSubmit = () => {
     let data = this.convertDataToForm(this.state.data)
-    console.log(data)
-    this.props.update(data)
+    if(this.isChanged()) {
+      this._initData = this.state.data;
+      this.props.update(data)
+      this.setState({
+        updated: true
+      })
+    }
   }
 
   render() {
     const errors = ''
     const isErrors = false
-    const {username, email, age, image, phone} = this.state.data
+    const { updated } = this.state
+    const {username, email, age, phone} = this.state.data
+    const {image} = this.props
     return(
       <div>
       <Form onSubmit={this.onSubmit} error={isErrors} >
@@ -129,15 +155,20 @@ class ProfileForm extends Component {
                 Image
               </Label>
               {
-                image ? <img src={image} alt='' with='50' height='50' /> : ''
+                image ? <Image  src={imageHost + image} size='medium' />: ''
               }
-              <Previews onChangeFile={this.onChangeFile}/>
+              <Previews updated={updated} onChangeFile={this.onChangeFile}/>
            </Grid.Column>
          </Grid.Row>
        </Grid>
      </Form>
-
+     <Grid>
+       <Grid.Row>
+         {updated && !errors ? <PositiveMessage text="Profile data updated successed"/> : ''}
+       </Grid.Row>
+     </Grid>
       </div>
+
     )
   }
 }
@@ -156,7 +187,8 @@ ProfileForm.propTypes = {
 
 const mapStateToProps = (state) => {
   return {
-    user: state.user
+    user: state.user,
+    image: state.user.image
   }
 }
 

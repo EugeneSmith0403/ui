@@ -62,17 +62,22 @@ function Previews(props) {
     files.forEach(file => URL.revokeObjectURL(file.preview));
   }, [files]);
   return (
-    <section className="container">
-      <div {...getRootProps({className: 'dropzone'})}>
-        <input name="image" {...getInputProps()} />
-        <Segment secondary>
-            <p>Drag 'n' drop some files here, or click to select files</p>
-        </Segment>
-      </div>
-      <aside style={thumbsContainer}>
-        {thumbs}
-      </aside>
-    </section>
+
+      <section className="container">
+        <div {...getRootProps({className: 'dropzone'})}>
+          <input name="image" {...getInputProps()} />
+          <Segment secondary>
+              <p>Drag 'n' drop some files here, or click to select files</p>
+          </Segment>
+        </div>
+      {
+        !props.updated ?
+          <aside style={thumbsContainer}>
+            {thumbs}
+          </aside>
+        : ''
+      }
+      </section>
   );
 }
 export default Previews

@@ -2,10 +2,10 @@ import React, {Component} from 'react'
 import { Message } from 'semantic-ui-react'
 
 
-const PositiveMessage = () => {
+const PositiveMessage = ({text}) => {
   return (
       <Message positive>
-        <Message.Header>Your entrance successed</Message.Header>
+        <Message.Header>{text}</Message.Header>
       </Message>
   )
 }

@@ -3,7 +3,9 @@ import ReactDOM from "react-dom";
 import history from './history'
 import App from './App'
 import { BrowserRouter, Route, Router, Switch } from "react-router-dom";
+//import "bootstrap/dist/css/bootstrap.css"
 import 'semantic-ui-css/semantic.min.css'
+
 import * as serviceWorker from './serviceWorker';
 import { Provider } from 'react-redux'
 import { createStore , applyMiddleware } from 'redux'
