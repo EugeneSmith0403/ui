@@ -53,13 +53,15 @@ class ProfileForm extends Component {
   onChange = e => this.setState({
     data: {
       ...this.state.data,
-      [e.target.name]: e.target.value
-    }
+      [e.target.name]: e.target.value,
+    },
+    updated: false
   })
   onChangeNumber = e =>this.setState({
     data: {
       ...this.state.data,
-      [e.target.name]: parseInt(e.target.value)
+      [e.target.name]: parseInt(e.target.value),
+      updated: false
     }
   })
   onChangeFile = (file)=> {
@@ -67,8 +69,9 @@ class ProfileForm extends Component {
     this.setState({
       data:{
         ...this.state.data,
-        file:  file[0]
-      }
+        file:  file[0],
+      },
+      updated: false
     })
   }
   convertDataToForm(data) {

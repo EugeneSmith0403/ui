@@ -22,7 +22,6 @@ export function* signupSaga(action) {
   }
   try{
     const key = yield api.user.checkUserSignUp({email: params.email});
-    //TODO какая то херня с логикой шифрования пароля надо пофиксить
     const request = yield api.user.signup({
       email: params.email,
       password: encrypt(params.password, key.toString())

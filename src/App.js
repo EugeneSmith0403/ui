@@ -6,6 +6,11 @@ import SignupPage  from './components/pages/SignupPage'
 import HomePage  from './components/pages/HomePage'
 import LoginPage from './components/pages/LoginPage'
 import DashboardPage from './components/pages/DashboardPage'
+
+import SearchTripPage from './components/pages/SearchTripPage'
+import OwnTripPage from './components/pages/OwnTripPage'
+import BookingPage from './components/pages/BookingPage'
+
 import ConfirmEntrancePage from './components/pages/ConfirmEntrancePage'
 import ProfilePage from './components/pages/ProfilePage'
 import SideMenu from './components/nav/SideMenu'
@@ -37,6 +42,9 @@ class App extends Component {
                 <Router history={history}>
                   <GuestRoute exact path="/" component={HomePage} />
                   <UserRoute path="/profile" component={ProfilePage} />
+                  <UserRoute path='/search-trips' component={SearchTripPage} />
+                  <UserRoute path='/own-trips' component={OwnTripPage} />
+                  <UserRoute path='/booking' component={BookingPage} />
                   <GuestRoute path="/signup" component={SignupPage} />
                   <GuestRoute path="/login" component={LoginPage} />
                   <PendingConfirmRoute path="/confirmEntrance/:hash" component={ConfirmEntrancePage} />
