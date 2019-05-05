@@ -17,3 +17,7 @@ export const FETCH_USER = 'FETCH_USER'
 
 export const LOGOUT_REQUEST = 'LOGOUT_REQUEST'
 export const LOGOUT = 'LOGOUT'
+
+
+export const SEARCHED_TRIP_REQUEST = 'SEARCHED_TRIP_REQUEST'
+export const SEARCHED_TRIP = 'SEARCHED_TRIP'

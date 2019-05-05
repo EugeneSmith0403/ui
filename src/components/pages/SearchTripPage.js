@@ -3,69 +3,75 @@ import ProfileForm from './../forms/ProfileForm'
 import {connect} from 'react-redux'
 import {updateProfileRequest} from './../../actions/user'
 import PropTypes from 'prop-types'
-import { Search, Grid, Header, Segment } from 'semantic-ui-react'
-import PlacesAutocomplete from 'react-places-autocomplete'
-
-
-//https://www.youtube.com/watch?v=Rpzp0yCAmq4 - how to create google autocomplite
-
-//google api key AIzaSyAp0FaDRS0LO6TrIld-b1tfxfu5MpFBAiM
+import SearchBar from './../searchBar'
+import { Form, Button } from 'semantic-ui-react'
+import SearchTripFrom from './../forms/SearchTripForm'
 
 class SearchTripPage extends Component {
-  state = {
+
+state = {
+  data: {
+    to: {},
+    from: {}
+  }
+}
+
+setCoodinatesTo = (value) => {
+  this.setState({
     data: {
-      trips: [{
-        id: 1,
-        title:'one',
-        From: '',
-        To: ''
-      },
-      {
-        id: 2,
-        title:'two',
-        From: '',
-        To: ''
-      },
-      {
-        id: 3,
-        title:'two',
-        From: '',
-        To: ''
-      }]
-    },
-    searchString: '',
-    loading: false
-  }
-  onSearchChange = (e, { value }) => {
-    /*this.setState({
-      loading: true
-    }) */
+      ...this.state.data,
+      to: value
+    }
+  })
+}
 
-
+setCoodinatesFrom = (value) => {
+  this.setState({
+    data: {
+      ...this.state.data,
+      from: value
+    }
+  })
+}
+getCoordinates = () => {
+  const {from, to} = this.state.data
+  return {
+    to,
+    from
   }
+}
+getTrips=()=> {
+  //
+  console.log(this.state.data, 'getTrips with range')
+}
+
   render() {
-    const isLoading = false;
-    const {state} = this
-    const {searchString} = state
-    const {trips} = state.data
-
     return (
       <div>
-        <Search
-           category
-           loading={isLoading}
-           onResultSelect={()=>{}}
-           onSearchChange={()=>{}}
-           results={trips}
-           value={searchString}
-           {...this.props}
-         />
-        <h1>Search trips page</h1>
+        <h1>SearchTripPage</h1>
+          <SearchTripFrom
+            onSubmit={this.getTrips}
+            setCoodinatesFrom={this.setCoodinatesFrom}
+            setCoodinatesTo={this.setCoodinatesTo}
+            getCoordinates={this.getCoordinates}
+          />
       </div>
     )
   }
 }
 
+SearchTripPage.propTypes  = {
+  data: PropTypes.shape({
+    to: PropTypes.shape({
+      lat: PropTypes.number,
+      lng: PropTypes.number
+    }),
+    from: PropTypes.shape({
+      lat: PropTypes.number,
+      lng: PropTypes.number
+    })
+  })
+}
 
 
 export default SearchTripPage

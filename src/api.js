@@ -12,6 +12,11 @@ export default {
       .then(res=>res.data.results.user),
     login: (credentials) => axios.post('/api/login', credentials).then(user=>user.data.results.user),
     logout: () => axios.post('/api/logout').then(result=> result.data.results),
-    updateProfile: (credentials) => axios.put('/api/userProfile', credentials).then(result=> result.data.results),
+    updateProfile: (credentials) => axios.put('/api/userProfile', credentials)
+      .then(result=> result.data.results),
+  },
+  trip: {
+    searchTrips: (searchParams) =>axios.get('/api/searchTrips', searchParams)
+      .then(results=>results.data.results.trips)
   }
 }
