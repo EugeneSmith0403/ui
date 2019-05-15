@@ -74,6 +74,11 @@ const TopMenu = ({image = defaultImage, username, email, logout}) => {
             <Menu.Item name='own trips' active={false}/>
           </Link>
         </Menu.Menu>
+        <Menu.Menu>
+          <Link to="/create-trip">
+            <Menu.Item name='Create trip' active={false}/>
+          </Link>
+        </Menu.Menu>
         <Menu.Menu position='right'>
             <Menu.Item onClick={()=>logout()} name='logout' />
           <AvatarItem image={image} username={username} email={email}  />

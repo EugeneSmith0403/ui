@@ -6,6 +6,9 @@ import PropTypes from 'prop-types'
 import SearchBar from './../searchBar'
 import { Form, Button } from 'semantic-ui-react'
 import SearchTripFrom from './../forms/SearchTripForm'
+import {Grid} from 'semantic-ui-react'
+import {searchTripRequest} from './../../actions/trip'
+import Trip from './../grid/Trip'
 
 class SearchTripPage extends Component {
 
@@ -41,20 +44,32 @@ getCoordinates = () => {
   }
 }
 getTrips=()=> {
-  //
+  //Todo make reqest to api search trip
   console.log(this.state.data, 'getTrips with range')
+//  this.props.searchTrip()
 }
 
   render() {
     return (
       <div>
-        <h1>SearchTripPage</h1>
-          <SearchTripFrom
-            onSubmit={this.getTrips}
-            setCoodinatesFrom={this.setCoodinatesFrom}
-            setCoodinatesTo={this.setCoodinatesTo}
-            getCoordinates={this.getCoordinates}
-          />
+      <Grid columns={12} textAlign='center' verticalAlign='middle'>
+        <Grid.Row>
+          <h1>SearchTripPage</h1>
+        </Grid.Row>
+          <Grid.Row>
+            <SearchTripFrom
+              onSubmit={this.getTrips}
+              setCoodinatesFrom={this.setCoodinatesFrom}
+              setCoodinatesTo={this.setCoodinatesTo}
+              getCoordinates={this.getCoordinates}
+            />
+          </Grid.Row>
+          <Grid.Row>
+
+            <Trip match={this.props.match.path}/>
+
+          </Grid.Row>
+      </Grid>
       </div>
     )
   }
@@ -70,8 +85,14 @@ SearchTripPage.propTypes  = {
       lat: PropTypes.number,
       lng: PropTypes.number
     })
-  })
+  }),
+  onSearch: PropTypes.func
+}
+const mapStateToProps = (state) => {
+  return {
+    trip: state.trip
+  }
 }
 
 
-export default SearchTripPage
+export default connect(mapStateToProps, { searchTrip: searchTripRequest })(SearchTripPage)

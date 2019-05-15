@@ -29,15 +29,17 @@ class SearchTripFrom extends Component {
   render() {
     const {to, from} = this.state.errors
     return (
-      <div className='search-area'>
         <Form onSubmit={this.onSubmit}>
           {!!from && from}
-          <SearchBar setCoordinates={this.props.setCoodinatesFrom} />
+          <SearchBar placeholder="From" setCoordinates={this.props.setCoodinatesFrom} />
           {!!to && to}
-          <SearchBar setCoordinates={this.props.setCoodinatesTo} />
-          <Button type='submit'>Submit</Button>
+          <SearchBar placeholder="To" setCoordinates={this.props.setCoodinatesTo} />
+          <div className="container ui">
+            <div className='ui centered middle aligned grid'>
+              <Button type='submit'>Search</Button>
+            </div>
+          </div>
         </Form>
-      </div>
     )
   }
 }

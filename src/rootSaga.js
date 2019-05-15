@@ -25,6 +25,6 @@ export default function* rootSagas(action) {
     yield takeLatest(FETCH_USER_REQUEST, fetchUserSaga)
     yield takeLatest(LOGOUT_REQUEST, logoutSaga)
     yield takeLatest(USER_PROFILE_UPDATED_REQUEST, updateUserProfileSaga)
-    yield takeLatest(SEARCHED_TRIP_REQUEST, searchTrip)
 
+    yield takeLatest(SEARCHED_TRIP_REQUEST, searchTrip)
 }

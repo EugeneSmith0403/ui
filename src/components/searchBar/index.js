@@ -79,25 +79,25 @@ class SearchBar extends Component {
   }
   render() {
     const {searchString, suggesstion, isLoading} = this.state
+    const placeholder = this.props.placeholder ? this.props.placeholder: '';
     return (
-      <div>
-        <Grid>
-          <Grid.Row>
-          <Grid.Column>
-
-           <Search
-               loading={isLoading}
-               onResultSelect={this.onResultSelect}
-               onSearchChange={this.onSearchChange}
-               icon=""
-               results={suggesstion}
-               value={searchString}
-               {...this.props}
-             />
-             </Grid.Column>
-          </Grid.Row>
-        </Grid>
-      </div>
+        <div className='ui container'>
+          <Grid fluid={true} centered  verticalAlign='middle'>
+            <Grid.Row fluid={true}>
+             <Search
+                 fluid ={true}
+                 loading={isLoading}
+                 onResultSelect={this.onResultSelect}
+                 onSearchChange={this.onSearchChange}
+                 icon=""
+                 placeholder
+                 results={suggesstion}
+                 value={searchString}
+                 {...this.props}
+               />
+            </Grid.Row>
+          </Grid>
+        </div>
     )
   }
 }
