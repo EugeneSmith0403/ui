@@ -8,7 +8,7 @@ import { Form, Button } from 'semantic-ui-react'
 import SearchTripFrom from './../forms/SearchTripForm'
 import {Grid} from 'semantic-ui-react'
 import {searchTripRequest} from './../../actions/trip'
-import Trip from './../grid/Trip'
+import TripGrid from './../grid/Trip'
 
 class SearchTripPage extends Component {
 
@@ -43,13 +43,17 @@ getCoordinates = () => {
     from
   }
 }
-getTrips=()=> {
+getTrips = ()=> {
   //Todo make reqest to api search trip
-  console.log(this.state.data, 'getTrips with range')
+  if(this.state.data) {
+    this.props.searchTrip(this.state.data)
+  }
 //  this.props.searchTrip()
 }
 
   render() {
+    //TODO add foreach for html
+    console.log(this.props.searchedTrip, 'searched trips---->')
     return (
       <div>
       <Grid columns={12} textAlign='center' verticalAlign='middle'>
@@ -66,7 +70,9 @@ getTrips=()=> {
           </Grid.Row>
           <Grid.Row>
 
-            <Trip match={this.props.match.path}/>
+            <TripGrid
+              data={this.props.searchedTrip}  
+              match={this.props.match.path}/>
 
           </Grid.Row>
       </Grid>
@@ -90,7 +96,7 @@ SearchTripPage.propTypes  = {
 }
 const mapStateToProps = (state) => {
   return {
-    trip: state.trip
+    searchedTrip: state.trip && state.trip.trip
   }
 }
 

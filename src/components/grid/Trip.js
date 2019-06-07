@@ -2,6 +2,8 @@ import React, {Component} from 'react'
 import { Button, Card, Image, Grid, Divider } from 'semantic-ui-react'
 import PropTypes from 'prop-types'
 import { Router, Route, Link } from "react-router-dom";
+import Moment from 'react-moment';
+
 
 
 const Item = ({data, url}) => {
@@ -14,10 +16,14 @@ const Item = ({data, url}) => {
            <Grid>
              <Grid.Row>
                <Grid.Column width={8}>
-                Вс, 19 мая
+                <Moment
+                  format="ddd/DD">
+                      {data.dataStart}
+                </Moment>
+
                </Grid.Column>
                <Grid.Column width={8} textAlign="right" >
-                5000 р
+                  {data.cost}
                </Grid.Column>
              </Grid.Row>
            </Grid>
@@ -26,12 +32,24 @@ const Item = ({data, url}) => {
              <Grid width={12}>
                <Grid.Row>
                <Grid.Column >
-                  <p><strong>12:00</strong>Новоибирск</p>
+                  <p><strong>
+                  <Moment
+                    format="H/00">
+                        {data.dateStart}
+                  </Moment>
+                  </strong>
+                    {data.from.lat}</p>
                </Grid.Column>
                </Grid.Row>
                <Grid.Row>
                <Grid.Column >
-                  <p><strong>17:00</strong>  Москва</p>
+               <p><strong>
+               <Moment
+                 format="H/00">
+                     {data.dateFinished}
+               </Moment>
+               </strong>
+                 {data.to.lat}</p>
                </Grid.Column >
                </Grid.Row>
                <Grid.Row>
@@ -40,12 +58,12 @@ const Item = ({data, url}) => {
                   <span>Елисей</span>
                 </Grid.Column>
                 <Grid.Column width={8} textAlign="right">
-                  Volkswagen Golf
+                  {data.carModel}
                 </Grid.Column>
                </Grid.Row>
                <Grid.Row>
                 <Grid.Column >
-                  Свободно: 5 из 5
+                  Занято: {data.occupiedPlaces} из {data.maxPlaces}
                 </Grid.Column>
                </Grid.Row>
              </Grid>
@@ -57,11 +75,10 @@ const Item = ({data, url}) => {
     </Card>
   )
 }
-const test = () => 'test';
 
-
-const Trip = ({match}) => {
-  const list = [{1:1},{2:2},{3:3}]
+const TripGrid = ({match, data}) => {
+  console.log(data)
+  const list = data ? data: []
   //TODO function map
   return (
     <Card.Group>
@@ -78,10 +95,10 @@ const Trip = ({match}) => {
 }
 
 
-Trip.propTypes = {
+TripGrid.propTypes = {
   searchTripRequest: PropTypes.func.isRequired,
   onSearch: PropTypes.func
 }
 
 
-export default Trip
+export default TripGrid

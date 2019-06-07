@@ -21,7 +21,7 @@ const UserErrors = ({message, status, statusText}) => {
 const mapStateToProps = (state) => {
   const data = state.errors.data;
   return {
-    message: data && data.results.errors.message,
+    message: data && data.results && data.results.errors && data.results.errors.message,
     status: state.errors.status,
     statusText: state.errors.statusText
   }

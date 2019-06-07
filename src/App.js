@@ -10,6 +10,7 @@ import DashboardPage from './components/pages/DashboardPage'
 import SearchTripPage from './components/pages/SearchTripPage'
 import OwnTripPage from './components/pages/OwnTripPage'
 import BookingPage from './components/pages/BookingPage'
+import CreateTripPage from './components/pages/CreateTripPage'
 
 import ConfirmEntrancePage from './components/pages/ConfirmEntrancePage'
 import ProfilePage from './components/pages/ProfilePage'
@@ -22,6 +23,7 @@ import {connect} from 'react-redux'
 import {fetchUserRequest} from './actions/auth'
 import Loader from 'react-loader'
 import TopMenu from './components/nav/TopMenu'
+import "react-datepicker/dist/react-datepicker.css";
 
 class App extends Component {
   componentWillMount() {
@@ -43,6 +45,9 @@ class App extends Component {
                   <GuestRoute exact path="/" component={HomePage} />
                   <UserRoute path="/profile" component={ProfilePage} />
                   <UserRoute path='/search-trips' component={SearchTripPage} />
+
+                  <UserRoute path='/create-trip' component={CreateTripPage} />
+
                   <UserRoute path='/own-trips' component={OwnTripPage} />
                   <UserRoute path='/booking' component={BookingPage} />
                   <GuestRoute path="/signup" component={SignupPage} />
@@ -60,7 +65,6 @@ class App extends Component {
 }
 
 const mapStateToProps = (state) => {
-  console.log(state.user.loaded)
   return {
     isAuthenticated: state.user.email,
     loaded: state.user.loaded

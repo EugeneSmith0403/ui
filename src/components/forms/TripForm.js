@@ -1,23 +1,31 @@
 import React, {Component} from 'react'
 import { Button, Form, Message, Grid, Label, Image } from 'semantic-ui-react'
 import PropTypes from 'prop-types'
+import DatePicker from "react-datepicker";
+import setMinutes from "date-fns/setMinutes";
+import setHours from "date-fns/setHours";
 import validator from 'validator'
 import Previews from './../dragAndDrop'
 import {connect} from 'react-redux'
 import _ from 'lodash'
 import PositiveMessage  from './../messages/PositiveMessage'
+import SearchBar from './../searchBar'
 
 class TripForm extends Component {
 
   _initData: null
   componentWillMount() {
-    const {username, email, age, image, phone} = this.props.user
+    const {from, to, dateStart, dateFinished, maxPeople, occupiedPlaces, cost, carModel, carYear} = this.props.trip
     const data = {
-      username,
-      email,
-      age,
-      image,
-      phone
+      from,
+      to,
+      dateStart,
+      dateFinished,
+      maxPeople,
+      occupiedPlaces,
+      cost,
+      carModel,
+      carYear
     }
     this.setState({
       data
@@ -38,11 +46,14 @@ class TripForm extends Component {
 
   state = {
     data: {
-      username: '',
-      email: '',
-      age: 0,
-      image: '',
-      phone: '',
+      from: null,
+      to: null,
+      dateStart: null,
+      dateFinished: null,
+      maxPeople: 5,
+      occupiedPlaces: 0,
+      cost: 1,
+      carModel: ''
     },
     updated: false,
     errors: {}
@@ -84,21 +95,56 @@ class TripForm extends Component {
 
   onSubmit = () => {
     let data = this.convertDataToForm(this.state.data)
+    console.log(this.state.data)
     if(this.isChanged()) {
       this._initData = this.state.data;
-      this.props.update(data)
+
+      this.props.create(this.state.data)
       this.setState({
-        updated: true
+        updated: false
       })
     }
   }
-
+  onChangeStartDate =  (date) => {
+    console.log()
+      this.setState({
+        data: {
+          ...this.state.data,
+          dateStart: date
+        }
+      })
+  }
+  onChangeFinishedDate = (date) => {
+    this.setState({
+      data: {
+        ...this.state.data,
+        dateFinished: date
+      }
+    })
+  }
+  setCoodinatesFrom = (value) => {
+    console.log(value)
+    this.setState({
+      data: {
+        ...this.state.data,
+        from: value
+      }
+    })
+  }
+  setCoodinatesTo = (value) => {
+    this.setState({
+      data: {
+        ...this.state.data,
+        to: value
+      }
+    })
+  }
+/*TODO dateFinished dataStart remake to timepicker not datepocker*/
   render() {
     const errors = ''
     const isErrors = false
     const { updated } = this.state
-    const {username, email, age, phone} = this.state.data
-    const {image} = this.props
+    const {from, to, dateStart, dateFinished, maxPeople, occupiedPlaces, cost, carModel, carYear} = this.state.data
     return(
       <div>
       <Form onSubmit={this.onSubmit} error={isErrors} >
@@ -109,30 +155,102 @@ class TripForm extends Component {
         <Grid columns={2} divided>
           <Grid.Row>
             <Grid.Column>
-              <Form.Input
-                label='User Name'
-                name='username'
-                value={username}
-                type="text"
-                onChange={this.onChange}
-                placeholder='joe' />
-                { errors.username && <Message
-                  error
-                  header={errors.username}
-                /> }
-             <Button>Update</Button>
-           </Grid.Column>
-           <Grid.Column>
-               <Label>
-                Image
-              </Label>
-              {
-                image ? <Image  src={imageHost + image} size='medium' />: ''
-              }
-              <Previews updated={updated} onChangeFile={this.onChangeFile}/>
+                <DatePicker
+                  placeholderText='Date From'
+                  name='startDate'
+                  selected={dateStart}
+                  onChange={this.onChangeStartDate}
+                  showTimeSelect
+                  dateFormat="MMMM d, yyyy h:mm aa"
+                  minTime={setHours(setMinutes(new Date(), 0), 17)}
+                  maxTime={setHours(setMinutes(new Date(), 30), 20)}
+                />
            </Grid.Column>
          </Grid.Row>
-       </Grid>
+         <Grid.Row>
+           <Grid.Column>
+             <DatePicker
+               placeholderText='Date To'
+               name='startDate'
+               selected={dateFinished}
+               showTimeSelect
+               dateFormat="MMMM d, yyyy h:mm aa"
+               minTime={setHours(setMinutes(new Date(), 0), 17)}
+               maxTime={setHours(setMinutes(new Date(), 30), 20)}
+               onChange={this.onChangeFinishedDate}
+             />
+            </Grid.Column>
+          </Grid.Row>
+
+          <Grid.Row>
+            <Grid.Column>
+              <SearchBar placeholder="From" setCoordinates={this.setCoodinatesFrom} />
+             </Grid.Column>
+           </Grid.Row>
+
+           <Grid.Row>
+             <Grid.Column>
+               <SearchBar placeholder="To" setCoordinates={this.setCoodinatesTo} />
+              </Grid.Column>
+            </Grid.Row>
+
+
+          <Grid.Row>
+            <Grid.Column>
+            <Form.Input
+              name='maxPeople'
+              type="text"
+              value={maxPeople}
+              onChange={this.onChange}
+              placeholder='maxPeople' />
+             </Grid.Column>
+           </Grid.Row>
+           <Grid.Row>
+             <Grid.Column>
+             <Form.Input
+               name='occupiedPlaces'
+               type="text"
+               value={occupiedPlaces}
+               onChange={this.onChange}
+               placeholder='occupiedPlaces' />
+              </Grid.Column>
+            </Grid.Row>
+            <Grid.Row>
+              <Grid.Column>
+              <Form.Input
+                name='occupiedPlaces'
+                type="text"
+                value={cost}
+                onChange={this.onChange}
+                placeholder='cost' />
+               </Grid.Column>
+             </Grid.Row>
+             <Grid.Row>
+               <Grid.Column>
+               <Form.Input
+                 name='carModel'
+                 type="text"
+                 value={carModel}
+                 onChange={this.onChange}
+                 placeholder='carModel' />
+                </Grid.Column>
+              </Grid.Row>
+              <Grid.Row>
+                <Grid.Column>
+                <Form.Input
+                  name='carYear'
+                  type="text"
+                  value={carYear}
+                  onChange={this.onChangeNumber}
+                  placeholder='carYear' />
+                 </Grid.Column>
+               </Grid.Row>
+        <Grid.Row>
+          <Grid.Column>
+            <Button>Update</Button>
+          </Grid.Column>
+        </Grid.Row>
+      </Grid>
      </Form>
      <Grid>
        <Grid.Row>

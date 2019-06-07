@@ -82,19 +82,21 @@ class SearchBar extends Component {
     const placeholder = this.props.placeholder ? this.props.placeholder: '';
     return (
         <div className='ui container'>
-          <Grid fluid={true} centered  verticalAlign='middle'>
+          <Grid fluid={true}  >
             <Grid.Row fluid={true}>
-             <Search
-                 fluid ={true}
-                 loading={isLoading}
-                 onResultSelect={this.onResultSelect}
-                 onSearchChange={this.onSearchChange}
-                 icon=""
-                 placeholder
-                 results={suggesstion}
-                 value={searchString}
-                 {...this.props}
-               />
+              <Grid.Column>
+               <Search
+                   fluid ={true}
+                   loading={isLoading}
+                   onResultSelect={this.onResultSelect}
+                   onSearchChange={this.onSearchChange}
+                   icon=""
+                   placeholder
+                   results={suggesstion}
+                   value={searchString}
+                   {...this.props}
+                 />
+              </Grid.Column>
             </Grid.Row>
           </Grid>
         </div>

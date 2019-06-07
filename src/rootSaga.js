@@ -7,6 +7,7 @@ import {
   LOGOUT_REQUEST,
   USER_PROFILE_UPDATED_REQUEST,
   SEARCHED_TRIP_REQUEST,
+  CREATED_TRIP_REQUEST
 } from './types'
 import {
   signupSaga,
@@ -16,7 +17,7 @@ import {
   logoutSaga,
   updateUserProfileSaga
 } from './sagas/user'
-import {searchTrip} from './sagas/trip'
+import {searchTrip,  createTrip} from './sagas/trip'
 
 export default function* rootSagas(action) {
     yield takeLatest(USER_SIGN_UP_REQUEST, signupSaga)
@@ -27,4 +28,5 @@ export default function* rootSagas(action) {
     yield takeLatest(USER_PROFILE_UPDATED_REQUEST, updateUserProfileSaga)
 
     yield takeLatest(SEARCHED_TRIP_REQUEST, searchTrip)
+    yield takeLatest(CREATED_TRIP_REQUEST, createTrip)
 }
