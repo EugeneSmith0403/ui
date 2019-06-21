@@ -3,10 +3,11 @@ import { Button, Card, Image, Grid, Divider } from 'semantic-ui-react'
 import PropTypes from 'prop-types'
 import { Router, Route, Link } from "react-router-dom";
 import Moment from 'react-moment';
-
+const imageHost = 'http://localhost:8080/'
 
 
 const Item = ({data, url}) => {
+  const ownerPhoto  = imageHost + data.owner.image;
   return (
     <Card fluid>
     <Link to={url}>
@@ -54,8 +55,8 @@ const Item = ({data, url}) => {
                </Grid.Row>
                <Grid.Row>
                 <Grid.Column width={8}>
-                  <Image circular floated='left' size='mini' src='https://react.semantic-ui.com/images/avatar/large/jenny.jpg' />
-                  <span>Елисей</span>
+                  <Image circular floated='left' width='50px' height='50px' size='mini' src={ownerPhoto} />
+                  <span>{data.owner.username}</span>
                 </Grid.Column>
                 <Grid.Column width={8} textAlign="right">
                   {data.carModel}

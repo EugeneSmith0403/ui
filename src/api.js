@@ -16,7 +16,7 @@ export default {
       .then(result=> result.data.results),
   },
   trip: {
-    searchTrips: (searchParams) =>axios.get('/api/trip/search', searchParams)
+    searchTrips: (searchParams) =>axios.get(`api/trip/search?from=${searchParams.from.lat},${searchParams.from.lng}&to=${searchParams.to.lat},${searchParams.to.lng}`, )
       .then(results=>results.data.results),
     createTrip: (credentials) => axios.post('/api/trip/create', credentials)
   }

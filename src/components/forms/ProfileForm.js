@@ -96,6 +96,7 @@ class ProfileForm extends Component {
   }
 
   render() {
+    console.log('rerender profile yep')
     const errors = ''
     const isErrors = false
     const { updated } = this.state
