@@ -5,6 +5,7 @@ import {updateProfileRequest} from './../../actions/user'
 import PropTypes from 'prop-types'
 import SearchBar from './../searchBar'
 import { Form, Button } from 'semantic-ui-react'
+import { searchTripRequest } from './../../actions/trip'
 
 class SearchTripFrom extends Component {
   state = {
@@ -24,6 +25,7 @@ class SearchTripFrom extends Component {
         from: this.props.defaultCoordinates.from,
         to: this.props.defaultCoordinates.to
       })
+      this.props.onSubmit()
     }
   }
   onSubmit = () => {
@@ -75,7 +77,6 @@ SearchTripFrom.propTypes = {
   getCoordinates: PropTypes.func.isRequired
 
 }
-
 
 
 

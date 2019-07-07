@@ -65,7 +65,12 @@ getCoordinates = () => {
 }
 getFullSearchedUrl = () => {
   const path = this.props.match.path;
-  return  path + `?from=${this.state.data.from.lat},${this.state.data.from.lng}&to=${this.state.data.to.lat},${this.state.data.to.lng}`
+  const fromLat = this.state.data.from.lat
+  const fromLong = this.state.data.from.lng
+  const toLat = this.state.data.to.lat
+  const toLong = this.state.data.to.lng
+
+  return  path + `?from=${fromLat},${fromLong}&to=${toLat},${toLong}`
 }
 getTrips = ()=> {
   //Todo make reqest to api search trip
@@ -76,8 +81,6 @@ getTrips = ()=> {
 }
 
   render() {
-    //TODO add foreach for html
-    console.log(this.state.data)
     return (
       <div>
       <Grid columns={12} textAlign='center' verticalAlign='middle'>
