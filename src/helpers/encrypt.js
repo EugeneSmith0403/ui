@@ -1,5 +1,5 @@
 import crypto from 'crypto'
-import { algorithm } from './../constanse'
+import { algorithm } from './../constants'
 
 export const encrypt = (text, password) => {
   var cipher = crypto.createCipher(algorithm, password)
