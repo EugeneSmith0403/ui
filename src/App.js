@@ -12,6 +12,8 @@ import OwnTripPage from './components/pages/OwnTripPage'
 import BookingPage from './components/pages/BookingPage'
 import CreateTripPage from './components/pages/CreateTripPage'
 
+import ItemDetail from './components/grid/ItemDetail'
+
 import ConfirmEntrancePage from './components/pages/ConfirmEntrancePage'
 import ProfilePage from './components/pages/ProfilePage'
 import SideMenu from './components/nav/SideMenu'
@@ -45,6 +47,10 @@ class App extends Component {
                   <GuestRoute exact path="/" component={HomePage} />
                   <UserRoute path="/profile" component={ProfilePage} />
                   <UserRoute path='/search-trips' component={SearchTripPage} />
+
+                  <UserRoute path='/search-trips' component={SearchTripPage}>
+                    <UserRoute path='/search-trips/:hash' component={ItemDetail}  />
+                  </UserRoute>
 
                   <UserRoute path='/create-trip' component={CreateTripPage} />
 

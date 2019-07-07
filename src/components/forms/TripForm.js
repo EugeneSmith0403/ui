@@ -95,7 +95,6 @@ class TripForm extends Component {
 
   onSubmit = () => {
     let data = this.convertDataToForm(this.state.data)
-    console.log(this.state.data)
     if(this.isChanged()) {
       this._initData = this.state.data;
 
@@ -106,7 +105,6 @@ class TripForm extends Component {
     }
   }
   onChangeStartDate =  (date) => {
-    console.log()
       this.setState({
         data: {
           ...this.state.data,
@@ -123,7 +121,6 @@ class TripForm extends Component {
     })
   }
   setCoodinatesFrom = (value) => {
-    console.log(value)
     this.setState({
       data: {
         ...this.state.data,

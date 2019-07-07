@@ -1,8 +1,9 @@
-import React, {Component} from 'react'
+import React, {PureComponent} from 'react'
 import ProfileForm from './../forms/ProfileForm'
 import {connect} from 'react-redux'
 import {updateProfileRequest} from './../../actions/user'
 import PropTypes from 'prop-types'
+import Geocode from "react-geocode";
 import { Search, Grid, Header, Segment } from 'semantic-ui-react'
 import axios from 'axios'
 
@@ -11,17 +12,47 @@ import PlacesAutocomplete, {
   getLatLng
 } from 'react-places-autocomplete';
 
-class SearchBar extends Component {
+const apiKey = 'AIzaSyCMdC6o0UQFxzNCamBwPLWsV1E-Ipo77iA'
+Geocode.setApiKey(apiKey);
+
+class SearchBar extends PureComponent {
+
+  componentDidUpdate(prevProps) {
+    const {lat, lng} = this.props
+    if(lat && lng && !this.state.mount) {
+      this.setState({
+        mount: true
+      })
+      this.getPlaceByLatLng(lat, lng);
+    }
+  }
   state = {
     data: {
       trips: []
     },
     searchString: '',
     suggesstion: [],
-    isLoading: false
+    isLoading: false,
+    mount: false
   }
   autocompleteService = new window.google.maps.places.AutocompleteService();
   sessionToken = new window.google.maps.places.AutocompleteSessionToken()
+
+  getPlaceByLatLng = (lat, lng) => {
+    Geocode.fromLatLng(lat, lng).then(
+      response => {
+        const address = response.results[0].formatted_address;
+        this.setState({
+          searchString: address
+        })
+        console.log(address);
+      },
+      error => {
+        console.error(error);
+      }
+    );
+  }
+
 
   getGeoCodeByAddress  = (address) => {
     geocodeByAddress(address)

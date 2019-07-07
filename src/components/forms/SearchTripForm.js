@@ -8,7 +8,23 @@ import { Form, Button } from 'semantic-ui-react'
 
 class SearchTripFrom extends Component {
   state = {
-    errors: {}
+    errors: {},
+    from: {
+      lat: '',
+      lng: ''
+    },
+    to: {
+      lat: '',
+      lng: ''
+    }
+  }
+  componentDidUpdate(prevProps) {
+    if(prevProps.defaultCoordinates.from.lat != this.state.from.lat) {
+      this.setState({
+        from: this.props.defaultCoordinates.from,
+        to: this.props.defaultCoordinates.to
+      })
+    }
   }
   onSubmit = () => {
     const {from, to} = this.props.getCoordinates()
@@ -31,9 +47,17 @@ class SearchTripFrom extends Component {
     return (
         <Form onSubmit={this.onSubmit}>
           {!!from && from}
-          <SearchBar placeholder="From" setCoordinates={this.props.setCoodinatesFrom} />
+          <SearchBar
+            lat={this.state.from.lat}
+            lng={this.state.from.lng}
+            placeholder="From"
+            setCoordinates={this.props.setCoodinatesFrom} />
           {!!to && to}
-          <SearchBar placeholder="To" setCoordinates={this.props.setCoodinatesTo} />
+          <SearchBar
+            lat={this.state.to.lat}
+            lng={this.state.to.lng}
+            placeholder="To"
+            setCoordinates={this.props.setCoodinatesTo} />
           <div className="container ui">
             <div className='ui centered middle aligned grid'>
               <Button type='submit'>Search</Button>

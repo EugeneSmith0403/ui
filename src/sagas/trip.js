@@ -1,5 +1,5 @@
 import sendDataWithTokenSaga, { helperSagaRequest } from './utils/sagaCheckToken'
-import { searchTripAction, createTripAction } from './../actions/trip'
+import { searchTripAction, createTripAction, oneTripAction } from './../actions/trip'
 import {tripError} from './../actions/errors'
 import {call, put} from 'redux-saga/effects'
 import api from './../api'
@@ -20,12 +20,23 @@ export function* searchTrip(action) {
   }
 }
 
+export function* oneTrip(action) {
+  try{
+    const id = action.id
+    const request = yield api.trip.getOneTrips(id);
+
+    yield put(oneTripAction(request))
+
+  }catch(e) {
+    yield put(tripError(e.response))
+  }
+}
+
 export function* createTrip(action) {
   try{
     const params = {
       ...action.data
     }
-    console.log(params)
     yield sendDataWithTokenSaga(
       helperSagaRequest(api.trip.createTrip, params), createTripAction
     )

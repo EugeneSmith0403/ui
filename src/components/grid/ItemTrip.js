@@ -1,12 +1,12 @@
 import React, {Component} from 'react'
 import { Button, Card, Image, Grid, Divider } from 'semantic-ui-react'
-import PropTypes from 'prop-types'
 import { Router, Route, Link } from "react-router-dom";
 import Moment from 'react-moment';
+import PropTypes from 'prop-types'
+
 const imageHost = 'http://localhost:8080/'
 
-
-const Item = ({data, url}) => {
+const ItemTrip = ({data, url}) => {
   const ownerPhoto  = imageHost + data.owner.image;
   return (
     <Card fluid>
@@ -74,32 +74,12 @@ const Item = ({data, url}) => {
       </Card>
     </Link>
     </Card>
+
   )
 }
-
-const TripGrid = ({match, data}) => {
-  console.log(data)
-  const list = data ? data: []
-  //TODO function map
-  return (
-    <Card.Group>
-    {list.map((item, index)=>{
-      return(
-        <Item
-          key={index}
-          data={item}
-          url={`${match}/${index + 1}`}/>
-      )
-    })}
-    </Card.Group>
-  )
+ItemTrip.propTypes = {
+  data: PropTypes.shape({}),
+  url: PropTypes.string
 }
 
-
-TripGrid.propTypes = {
-  searchTripRequest: PropTypes.func.isRequired,
-  onSearch: PropTypes.func
-}
-
-
-export default TripGrid
+export default ItemTrip;

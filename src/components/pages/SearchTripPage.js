@@ -8,10 +8,30 @@ import { Form, Button } from 'semantic-ui-react'
 import SearchTripFrom from './../forms/SearchTripForm'
 import {Grid} from 'semantic-ui-react'
 import {searchTripRequest} from './../../actions/trip'
-import TripGrid from './../grid/Trip'
+import GridView from './../grid/GridView'
+import queryString from 'query-string'
 
 class SearchTripPage extends Component {
+componentDidMount() {
+  const {search} = this.props.router.location
+  if(search) {
+    const { from, to } = queryString.parse(search);
+    this.setState({
+      data: {
+        to: this.splitLngLat(to),
+        from: this.splitLngLat(from)
+      }
+    })
 
+  }
+}
+splitLngLat = (data) => {
+  const arData = data.split(',')
+  return {
+    lat: arData && arData[0],
+    lng: arData && arData[1]
+  }
+}
 state = {
   data: {
     to: {},
@@ -43,17 +63,21 @@ getCoordinates = () => {
     from
   }
 }
+getFullSearchedUrl = () => {
+  const path = this.props.match.path;
+  return  path + `?from=${this.state.data.from.lat},${this.state.data.from.lng}&to=${this.state.data.to.lat},${this.state.data.to.lng}`
+}
 getTrips = ()=> {
   //Todo make reqest to api search trip
   if(this.state.data) {
     this.props.searchTrip(this.state.data)
+    this.props.history.push(this.getFullSearchedUrl())
   }
-//  this.props.searchTrip()
 }
 
   render() {
     //TODO add foreach for html
-    console.log(this.props.searchedTrip, 'searched trips---->')
+    console.log(this.state.data)
     return (
       <div>
       <Grid columns={12} textAlign='center' verticalAlign='middle'>
@@ -66,12 +90,13 @@ getTrips = ()=> {
               setCoodinatesFrom={this.setCoodinatesFrom}
               setCoodinatesTo={this.setCoodinatesTo}
               getCoordinates={this.getCoordinates}
+              defaultCoordinates={this.state.data}
             />
           </Grid.Row>
           <Grid.Row>
 
-            <TripGrid
-              data={this.props.searchedTrip}  
+            <GridView
+              data={this.props.searchedTrip}
               match={this.props.match.path}/>
 
           </Grid.Row>
@@ -96,7 +121,8 @@ SearchTripPage.propTypes  = {
 }
 const mapStateToProps = (state) => {
   return {
-    searchedTrip: state.trip && state.trip.trip
+    searchedTrip: state.trip && state.trip.trip,
+    router: state.router
   }
 }
 
