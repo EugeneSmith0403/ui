@@ -3,11 +3,14 @@ import { Button, Card, Image, Grid, Divider } from 'semantic-ui-react'
 import { Router, Route, Link } from "react-router-dom";
 import Moment from 'react-moment';
 import PropTypes from 'prop-types'
+import {HOST} from '../../constants'
+import {connect} from 'react-redux'
 
 const imageHost = 'http://localhost:8080/'
 
-const ItemTrip = ({data, url}) => {
+const ItemTrip = ({data, url, router}) => {
   const ownerPhoto  = imageHost + data.owner.image;
+  console.log(router, '_--__--__-_')
   return (
     <Card fluid>
     <Link to={url}>
@@ -82,4 +85,12 @@ ItemTrip.propTypes = {
   url: PropTypes.string
 }
 
-export default ItemTrip;
+const mapStateToProps = (state, owner) => {
+  return {
+    router: state.router
+  }
+}
+
+
+
+export default connect(mapStateToProps)(ItemTrip);

@@ -1,4 +1,4 @@
-import React, {Component} from 'react'
+import React, {Component, PureComponent} from 'react'
 import ProfileForm from './../forms/ProfileForm'
 import {connect} from 'react-redux'
 import {updateProfileRequest} from './../../actions/user'
@@ -11,7 +11,7 @@ import {searchTripRequest} from './../../actions/trip'
 import GridView from './../grid/GridView'
 import queryString from 'query-string'
 
-class SearchTripPage extends Component {
+class SearchTripPage extends PureComponent {
 componentDidMount() {
   const {search} = this.props.router.location
   if(search) {
@@ -19,12 +19,25 @@ componentDidMount() {
     this.setState({
       data: {
         to: this.splitLngLat(to),
-        from: this.splitLngLat(from)
-      }
+        from: this.splitLngLat(from),
+      },
+      isVisibleSearchForm: !this.isRoutingHash()
     })
-
   }
 }
+componentDidUpdate(prevProps) {
+  const isRoutingHash = this.isRoutingHash();
+  if(prevProps.location.pathname !== this.props.location.pathname && isRoutingHash) {
+    this.setState({
+      isVisibleSearchForm: false
+    })
+  }
+}
+isRoutingHash = () => {
+  const {pathname} =  this.props.router.location;
+  return !!pathname.split('/')[2];
+}
+
 splitLngLat = (data) => {
   const arData = data.split(',')
   return {
@@ -35,8 +48,9 @@ splitLngLat = (data) => {
 state = {
   data: {
     to: {},
-    from: {}
-  }
+    from: {},
+  },
+  isVisibleSearchForm: true
 }
 
 setCoodinatesTo = (value) => {
@@ -82,28 +96,29 @@ getTrips = ()=> {
 
   render() {
     return (
+      this.state.isVisibleSearchForm &&
       <div>
-      <Grid columns={12} textAlign='center' verticalAlign='middle'>
-        <Grid.Row>
-          <h1>SearchTripPage</h1>
-        </Grid.Row>
+        <Grid columns={12} textAlign='center' verticalAlign='middle'>
           <Grid.Row>
-            <SearchTripFrom
-              onSubmit={this.getTrips}
-              setCoodinatesFrom={this.setCoodinatesFrom}
-              setCoodinatesTo={this.setCoodinatesTo}
-              getCoordinates={this.getCoordinates}
-              defaultCoordinates={this.state.data}
-            />
+            <h1>SearchTripPage</h1>
           </Grid.Row>
-          <Grid.Row>
+            <Grid.Row>
+              <SearchTripFrom
+                onSubmit={this.getTrips}
+                setCoodinatesFrom={this.setCoodinatesFrom}
+                setCoodinatesTo={this.setCoodinatesTo}
+                getCoordinates={this.getCoordinates}
+                defaultCoordinates={this.state.data}
+              />
+            </Grid.Row>
+            <Grid.Row>
 
-            <GridView
-              data={this.props.searchedTrip}
-              match={this.props.match.path}/>
+              <GridView
+                data={this.props.searchedTrip}
+                match={this.props.match.path}/>
 
-          </Grid.Row>
-      </Grid>
+            </Grid.Row>
+        </Grid>
       </div>
     )
   }

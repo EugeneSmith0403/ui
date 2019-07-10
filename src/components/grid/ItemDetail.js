@@ -4,20 +4,25 @@ import {connect} from 'react-redux'
 import TableView from './../table'
 import {oneTripRequest} from './../../actions/trip'
 //TODO create action getOneTrip
+
+const getOneTripHelper = (props, id) => {
+  return props.trip && !props.trip.length === 0 ? props.getOneTrip(id) : '';
+}
+
+
 const ItemDetail = (props) => {
   const match = props.match
   const id = match.params.hash;
-  props.getOneTrip(id)
-
-  const currentTrip = (props.trip || []).filter((item, index)=>{
+  const {trip} = props
+  let current = trip.filter((item, index)=>{
     return item._id === id;
   })
-  const dataRow = []
-  const dataHeader = []
 
-  return <TableView
-    dataHeader={dataHeader}
-    dataRow ={dataRow} />;
+  console.log(current, '+==+=+=')
+
+
+
+  return ''
 
 }
 

@@ -10,6 +10,8 @@ import {connect} from 'react-redux'
 import _ from 'lodash'
 import PositiveMessage  from './../messages/PositiveMessage'
 import SearchBar from './../searchBar'
+import {EnabledPicker, EnabledInput} from './Enabled'
+
 
 class TripForm extends Component {
 
@@ -152,20 +154,24 @@ class TripForm extends Component {
         <Grid columns={2} divided>
           <Grid.Row>
             <Grid.Column>
-                <DatePicker
-                  placeholderText='Date From'
-                  name='startDate'
-                  selected={dateStart}
-                  onChange={this.onChangeStartDate}
-                  showTimeSelect
-                  dateFormat="MMMM d, yyyy h:mm aa"
-                  minTime={setHours(setMinutes(new Date(), 0), 17)}
-                  maxTime={setHours(setMinutes(new Date(), 30), 20)}
-                />
+            <EnabledPicker isEnabled={this.props.isEnabled}>
+                  <DatePicker
+                    placeholderText='Date From'
+                    name='startDate'
+                    selected={dateStart}
+                    onChange={this.onChangeStartDate}
+                    showTimeSelect
+                    dateFormat="MMMM d, yyyy h:mm aa"
+                    minTime={setHours(setMinutes(new Date(), 0), 17)}
+                    maxTime={setHours(setMinutes(new Date(), 30), 20)}
+                  />
+            </EnabledPicker >
+
            </Grid.Column>
          </Grid.Row>
          <Grid.Row>
            <Grid.Column>
+           <EnabledPicker isEnabled={this.props.isEnabled}>
              <DatePicker
                placeholderText='Date To'
                name='startDate'
@@ -176,6 +182,7 @@ class TripForm extends Component {
                maxTime={setHours(setMinutes(new Date(), 30), 20)}
                onChange={this.onChangeFinishedDate}
              />
+             </EnabledPicker >
             </Grid.Column>
           </Grid.Row>
 
@@ -194,57 +201,70 @@ class TripForm extends Component {
 
           <Grid.Row>
             <Grid.Column>
-            <Form.Input
-              name='maxPeople'
-              type="text"
-              value={maxPeople}
-              onChange={this.onChange}
-              placeholder='maxPeople' />
+            <EnabledInput isEnabled={this.props.isEnabled}>
+              <Form.Input
+                name='maxPeople'
+                type="text"
+                value={maxPeople}
+                onChange={this.onChange}
+                placeholder='maxPeople' />
+              </EnabledInput>
              </Grid.Column>
            </Grid.Row>
            <Grid.Row>
              <Grid.Column>
-             <Form.Input
-               name='occupiedPlaces'
-               type="text"
-               value={occupiedPlaces}
-               onChange={this.onChange}
-               placeholder='occupiedPlaces' />
+             <EnabledInput isEnabled={this.props.isEnabled}>
+               <Form.Input
+                 name='occupiedPlaces'
+                 type="text"
+                 value={occupiedPlaces}
+                 onChange={this.onChange}
+                 placeholder='occupiedPlaces' />
+            </EnabledInput>
               </Grid.Column>
             </Grid.Row>
             <Grid.Row>
               <Grid.Column>
+              <EnabledInput isEnabled={this.props.isEnabled}>
+
               <Form.Input
                 name='occupiedPlaces'
                 type="text"
                 value={cost}
                 onChange={this.onChange}
                 placeholder='cost' />
+              </EnabledInput>
                </Grid.Column>
              </Grid.Row>
              <Grid.Row>
                <Grid.Column>
-               <Form.Input
-                 name='carModel'
-                 type="text"
-                 value={carModel}
-                 onChange={this.onChange}
-                 placeholder='carModel' />
+               <EnabledInput isEnabled={this.props.isEnabled}>
+
+                 <Form.Input
+                   name='carModel'
+                   type="text"
+                   value={carModel}
+                   onChange={this.onChange}
+                   placeholder='carModel' />
+                </EnabledInput>
                 </Grid.Column>
               </Grid.Row>
               <Grid.Row>
                 <Grid.Column>
+                <EnabledInput isEnabled={this.props.isEnabled}>
+
                 <Form.Input
                   name='carYear'
                   type="text"
                   value={carYear}
                   onChange={this.onChangeNumber}
                   placeholder='carYear' />
+                </EnabledInput>
                  </Grid.Column>
                </Grid.Row>
         <Grid.Row>
           <Grid.Column>
-            <Button>Update</Button>
+            {this.props.isEnabled && <Button>Update</Button> }
           </Grid.Column>
         </Grid.Row>
       </Grid>
