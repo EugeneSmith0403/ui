@@ -17,12 +17,13 @@ class TripForm extends Component {
 
   _initData: null
   componentWillMount() {
-    const {from, to, dateStart, dateFinished, maxPeople, occupiedPlaces, cost, carModel, carYear} = this.props.trip
+    const trip = this.props.isNew ? {}: this.props.trip
+    const {from, to, dateStart, dateFinished, maxPeople, occupiedPlaces, cost, carModel, carYear} = trip
     const data = {
       from,
       to,
-      dateStart,
-      dateFinished,
+      dateStart: new Date(dateStart),
+      dateFinished: new Date(dateFinished),
       maxPeople,
       occupiedPlaces,
       cost,
@@ -110,7 +111,7 @@ class TripForm extends Component {
       this.setState({
         data: {
           ...this.state.data,
-          dateStart: date
+          dateStart: new Date(date).getTime()
         }
       })
   }
@@ -118,7 +119,7 @@ class TripForm extends Component {
     this.setState({
       data: {
         ...this.state.data,
-        dateFinished: date
+        dateFinished: new Date(date).getTime()
       }
     })
   }
@@ -228,7 +229,7 @@ class TripForm extends Component {
               <EnabledInput isEnabled={this.props.isEnabled}>
 
               <Form.Input
-                name='occupiedPlaces'
+                name='cost'
                 type="text"
                 value={cost}
                 onChange={this.onChange}
@@ -264,6 +265,7 @@ class TripForm extends Component {
                </Grid.Row>
         <Grid.Row>
           <Grid.Column>
+
             {this.props.isEnabled && <Button>Update</Button> }
           </Grid.Column>
         </Grid.Row>
@@ -299,10 +301,4 @@ TripForm.propTypes = {
 }
 
 
-const mapStateToProps = (state) => {
-  return {
-    trip: state.trip
-  }
-}
-
-export default connect(mapStateToProps)(TripForm)
+export default TripForm

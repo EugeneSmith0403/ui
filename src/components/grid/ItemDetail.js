@@ -3,6 +3,7 @@ import ItemTrip from './ItemTrip'
 import {connect} from 'react-redux'
 import TableView from './../table'
 import {oneTripRequest} from './../../actions/trip'
+import TripForm from './../../components/forms/TripForm'
 //TODO create action getOneTrip
 
 const getOneTripHelper = (props, id) => {
@@ -13,16 +14,14 @@ const getOneTripHelper = (props, id) => {
 const ItemDetail = (props) => {
   const match = props.match
   const id = match.params.hash;
-  const {trip} = props
-  let current = trip.filter((item, index)=>{
+  const {trip} = props || []
+  let currentTrip = trip.filter((item, index)=>{
     return item._id === id;
-  })
-
-  console.log(current, '+==+=+=')
-
-
-
-  return ''
+  })[0];
+console.log(currentTrip, "+++===+++");
+  return <TripForm
+    isEnabled={true}
+    trip={currentTrip}/>
 
 }
 

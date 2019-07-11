@@ -24,7 +24,6 @@ export function* oneTrip(action) {
   try{
     const id = action.id
     const request = yield api.trip.getOneTrips(id);
-        console.log(request,'--->')
     yield put(oneTripAction(request))
 
   }catch(e) {
