@@ -22,8 +22,8 @@ class TripForm extends Component {
     const data = {
       from,
       to,
-      dateStart: new Date(dateStart),
-      dateFinished: new Date(dateFinished),
+      dateStart: dateStart && new Date(dateStart) || null,
+      dateFinished: dateFinished && new Date(dateFinished) || null,
       maxPeople,
       occupiedPlaces,
       cost,
@@ -144,7 +144,14 @@ class TripForm extends Component {
     const errors = ''
     const isErrors = false
     const { updated } = this.state
-    const {from, to, dateStart, dateFinished, maxPeople, occupiedPlaces, cost, carModel, carYear} = this.state.data
+    const {
+      from,
+      to,
+      dateStart,
+      dateFinished,
+      maxPeople,
+      occupiedPlaces,
+      cost, carModel, carYear} = this.state.data
     return(
       <div>
       <Form onSubmit={this.onSubmit} error={isErrors} >
