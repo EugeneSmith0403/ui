@@ -1,6 +1,6 @@
 import React, {Component} from 'react'
-import PickerDisabledView from './Disabled/PickerView'
+import PickerView from './Disabled/PickerView'
 import WrapperEnabledWithDisabledView from './WrapperEnabled'
 
 
-export default WrapperEnabledWithDisabledView(PickerDisabledView)
+export default WrapperEnabledWithDisabledView(PickerView)

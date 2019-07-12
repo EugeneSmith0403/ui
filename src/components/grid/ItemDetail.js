@@ -19,9 +19,8 @@ const ItemDetail = (props) => {
     return item._id === id;
   })[0];
   return <TripForm
-    isEnabled={true}
+    isEnabled={false}
     trip={currentTrip}/>
-
 }
 
 

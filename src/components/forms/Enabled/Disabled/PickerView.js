@@ -2,12 +2,12 @@ import React, {Component} from 'react'
 import { Label } from 'semantic-ui-react'
 
 
-const PickerDisabledView = ({props}) => {
+const PickerView = ({props}) => {
   return (
     props.selected ? <div>
       <Label>{props.placeholderText}</Label>
-      <p>{props.selected}</p>
+      <p>{props.selected && Date(props.selected)}</p>
     </div>: ''
   )
 }
-export default PickerDisabledView
+export default PickerView
