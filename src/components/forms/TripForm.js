@@ -11,6 +11,7 @@ import _ from 'lodash'
 import PositiveMessage  from './../messages/PositiveMessage'
 import SearchBar from './../searchBar'
 import {EnabledPicker, EnabledInput} from './Enabled'
+import geocodeHelper from './../../helpers/geocodeHelper'
 
 
 class TripForm extends Component {
@@ -34,6 +35,9 @@ class TripForm extends Component {
       data
     })
     this._initData = data
+    this.getLocation(from.lat, from.lng, 'locationFrom')
+    this.getLocation(to.lat, to.lng, 'locationTo')
+
   }
 
   set initData(value) {
@@ -45,6 +49,13 @@ class TripForm extends Component {
   }
   isChanged = () => {
     return _.differenceWith([this.state.data, this._initData], [this._initData], _.isEqual).length
+  }
+  getLocation = (lat, lng, stateName) => {
+    geocodeHelper.getAddressByCoordinates(lat, lng, (address)=> {
+      this.setState({
+        [stateName]: address
+      })
+    })
   }
 
   state = {
@@ -58,6 +69,8 @@ class TripForm extends Component {
       cost: 1,
       carModel: ''
     },
+    locationFrom: '',
+    locationTo: '',
     updated: false,
     errors: {}
   }
@@ -196,21 +209,36 @@ class TripForm extends Component {
 
           <Grid.Row>
             <Grid.Column>
-              <SearchBar
-                lat={from && from.lat}
-                lng={from && from.lng}
-                placeholder="From"
-                setCoordinates={this.setCoodinatesFrom} />
+            {
+              this.props.isEnabled ?
+                <SearchBar
+                  lat={from && from.lat}
+                  lng={from && from.lng}
+                  placeholder="From"
+                  setCoordinates={this.setCoodinatesFrom} />
+              : <div>
+              <Label>locationFrom</Label>
+                <p>{this.state.locationFrom}</p>
+              </div>
+            }
              </Grid.Column>
            </Grid.Row>
 
            <Grid.Row>
              <Grid.Column>
-               <SearchBar
-                  lat={to && to.lat}
-                  lng={to && to.lng}
-                  placeholder="To"
-                  setCoordinates={this.setCoodinatesTo} />
+             {
+               this.props.isEnabled ?
+                 <SearchBar
+                    lat={to && to.lat}
+                    lng={to && to.lng}
+                    placeholder="To"
+                    setCoordinates={this.setCoodinatesTo} />
+                :
+                <div>
+                <Label>LocationTo</Label>
+                  <p>{this.state.locationTo}</p>
+                </div>
+              }
               </Grid.Column>
             </Grid.Row>
 
