@@ -32,6 +32,9 @@ componentDidUpdate(prevProps) {
       isVisibleSearchForm: !isRoutingHash
     })
   }
+  if(prevProps.location.pathname !== this.props.location.pathname && !isRoutingHash) {
+    this.props.resetTrip()
+  }
 }
 isRoutingHash = () => {
   const {pathname} =  this.props.router.location;

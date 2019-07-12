@@ -12,6 +12,7 @@ import PositiveMessage  from './../messages/PositiveMessage'
 import SearchBar from './../searchBar'
 import {EnabledPicker, EnabledInput} from './Enabled'
 import geocodeHelper from './../../helpers/geocodeHelper'
+import {resetTripAction} from './../../actions/trip'
 
 
 class TripForm extends Component {
@@ -35,8 +36,10 @@ class TripForm extends Component {
       data
     })
     this._initData = data
-    this.getLocation(from.lat, from.lng, 'locationFrom')
-    this.getLocation(to.lat, to.lng, 'locationTo')
+    if(!this.props.isNew) {
+      this.getLocation(from.lat, from.lng, 'locationFrom')
+      this.getLocation(to.lat, to.lng, 'locationTo')
+    }
 
   }
 
