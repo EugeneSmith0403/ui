@@ -49,8 +49,8 @@ class TripForm extends Component {
 
   state = {
     data: {
-      from: null,
-      to: null,
+      from: {},
+      to: {},
       dateStart: null,
       dateFinished: null,
       maxPeople: 5,
@@ -196,16 +196,23 @@ class TripForm extends Component {
 
           <Grid.Row>
             <Grid.Column>
-              <SearchBar placeholder="From" setCoordinates={this.setCoodinatesFrom} />
+              <SearchBar
+                lat={from && from.lat}
+                lng={from && from.lng}
+                placeholder="From"
+                setCoordinates={this.setCoodinatesFrom} />
              </Grid.Column>
            </Grid.Row>
 
            <Grid.Row>
              <Grid.Column>
-               <SearchBar placeholder="To" setCoordinates={this.setCoodinatesTo} />
+               <SearchBar
+                  lat={to && to.lat}
+                  lng={to && to.lng}
+                  placeholder="To"
+                  setCoordinates={this.setCoodinatesTo} />
               </Grid.Column>
             </Grid.Row>
-
 
           <Grid.Row>
             <Grid.Column>

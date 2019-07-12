@@ -17,7 +17,10 @@ Geocode.setApiKey(apiKey);
 
 class SearchBar extends PureComponent {
 
-  componentDidUpdate(prevProps) {
+  componentDidUpdate = (prevProps)  => this.updateLatLng()
+  componentDidMount = () => this.updateLatLng()
+
+  updateLatLng = () => {
     const {lat, lng} = this.props
     if(lat && lng && !this.state.mount) {
       this.setState({
@@ -26,6 +29,7 @@ class SearchBar extends PureComponent {
       this.getPlaceByLatLng(lat, lng);
     }
   }
+
   state = {
     data: {
       trips: []
@@ -45,7 +49,6 @@ class SearchBar extends PureComponent {
         this.setState({
           searchString: address
         })
-        console.log(address);
       },
       error => {
         console.error(error);

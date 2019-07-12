@@ -18,7 +18,6 @@ const ItemDetail = (props) => {
   let currentTrip = trip.filter((item, index)=>{
     return item._id === id;
   })[0];
-console.log(currentTrip, "+++===+++");
   return <TripForm
     isEnabled={true}
     trip={currentTrip}/>
