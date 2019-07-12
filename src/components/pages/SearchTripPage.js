@@ -7,7 +7,7 @@ import SearchBar from './../searchBar'
 import { Form, Button } from 'semantic-ui-react'
 import SearchTripFrom from './../forms/SearchTripForm'
 import {Grid} from 'semantic-ui-react'
-import {searchTripRequest} from './../../actions/trip'
+import {searchTripRequest, resetTripAction} from './../../actions/trip'
 import GridView from './../grid/GridView'
 import queryString from 'query-string'
 
@@ -27,9 +27,9 @@ componentDidMount() {
 }
 componentDidUpdate(prevProps) {
   const isRoutingHash = this.isRoutingHash();
-  if(prevProps.location.pathname !== this.props.location.pathname && isRoutingHash) {
+  if(prevProps.location.pathname !== this.props.location.pathname) {
     this.setState({
-      isVisibleSearchForm: false
+      isVisibleSearchForm: !isRoutingHash
     })
   }
 }
@@ -145,4 +145,4 @@ const mapStateToProps = (state) => {
 }
 
 
-export default connect(mapStateToProps, { searchTrip: searchTripRequest })(SearchTripPage)
+export default connect(mapStateToProps, { searchTrip: searchTripRequest, resetTrip: resetTripAction })(SearchTripPage)

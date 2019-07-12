@@ -4,7 +4,8 @@ import {
   SEARCHED_ONE_TRIP_REQUEST,
   CREATED_TRIP_REQUEST,
   SEARCHED_ONE_TRIP,
-  CREATED_TRIP
+  CREATED_TRIP,
+  RESET_TRIP
 } from './../types'
 
 export const searchTripRequest = (data) => ({
@@ -32,4 +33,8 @@ export const createTripRequest = (data) => ({
 export const createTripAction = (data) => ({
   type: CREATED_TRIP,
   data
+})
+
+export const resetTripAction = () => ({
+  type: RESET_TRIP
 })
