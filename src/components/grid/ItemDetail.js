@@ -11,6 +11,10 @@ const getOneTripHelper = (props, id) => {
 }
 
 
+const checkEnabled = (email, currentTrip) => {
+  return email === currentTrip.owner.email;
+}
+
 const ItemDetail = (props) => {
   const match = props.match
   const id = match.params.hash;
@@ -19,14 +23,15 @@ const ItemDetail = (props) => {
     return item._id === id;
   })[0];
   return <TripForm
-    isEnabled={false}
+    isEnabled={checkEnabled(props.userEmail, currentTrip)}
     trip={currentTrip}/>
 }
 
 
 const mapStateToProps = (state) => {
   return {
-    trip: state.trip && state.trip.trip
+    trip: state.trip && state.trip.trip,
+    userEmail: state.user.email
   }
 }
 

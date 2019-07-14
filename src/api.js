@@ -19,6 +19,7 @@ export default {
     getOneTrip: (id) => axios.get(`/api/trip/${id}`).then(result=> result.data.results),
     searchTrips: (searchParams) =>axios.get(`api/trip/search?from=${searchParams.from.lat},${searchParams.from.lng}&to=${searchParams.to.lat},${searchParams.to.lng}`, )
       .then(results=>results.data.results),
-    createTrip: (credentials) => axios.post('/api/trip/create', credentials)
+    createTrip: (credentials) => axios.post('/api/trip/create', credentials),
+    getUserTtips: (email)=> axios.get(`api/search?userEmail=${email}`).then(results=>results.data.results)
   }
 }

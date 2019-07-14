@@ -1,19 +1,24 @@
-import React, {Component} from 'react'
-import {Button, Grid} from 'semantic-ui-react'
+import React, { Component } from "react";
+import { Button, Grid } from "semantic-ui-react";
 import { Link } from "react-router-dom";
-import Login from './../buttons/guest/login'
-import Singup from './../buttons/guest/singup'
-import GuestPermission from './../renderingPermission/GuestPermision'
-import AuthPermission from './../renderingPermission/AuthPermision'
-import DashboardInfo from './../dashboardInfo/HomeInfo'
+import Login from "./../buttons/guest/login";
+import Singup from "./../buttons/guest/singup";
+import GuestPermission from "./../renderingPermission/GuestPermision";
+import AuthPermission from "./../renderingPermission/AuthPermision";
+import DashboardInfo from "./../dashboardInfo/HomeInfo";
 
 const HomePage = () => {
-  const height = { height: '100%' }
+  const height = { height: "100%" };
   return (
     <div>
-      <Grid columns={12} textAlign='center' style={height} verticalAlign='middle'>
+      <Grid
+        columns={12}
+        textAlign="center"
+        style={height}
+        verticalAlign="middle"
+      >
         <Grid.Row>
-            <h1>Welcome to our serves</h1>
+          <h1>Welcome to our serves</h1>
         </Grid.Row>
         <Grid.Row>
           <GuestPermission component={Singup} />
@@ -22,6 +27,6 @@ const HomePage = () => {
         </Grid.Row>
       </Grid>
     </div>
-  )
-}
-export default HomePage
+  );
+};
+export default HomePage;

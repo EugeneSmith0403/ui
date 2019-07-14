@@ -5,8 +5,22 @@ import {
   CREATED_TRIP_REQUEST,
   SEARCHED_ONE_TRIP,
   CREATED_TRIP,
-  RESET_TRIP
+  RESET_TRIP,
+  RECIEVED_USER_TRIP,
+  RECIEVED_USER_TRIP_REQUEST
 } from './../types'
+
+
+
+export const revieveUserTrips = (email) => ({
+  type: RECIEVED_USER_TRIP,
+  email
+})
+
+export const revieveUserTripsRequest = (data) => ({
+  type: RECIEVED_USER_TRIP_REQUEST,
+  data
+})
 
 export const searchTripRequest = (data) => ({
   type: SEARCHED_TRIP_REQUEST,

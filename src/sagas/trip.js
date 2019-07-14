@@ -20,6 +20,21 @@ export function* searchTrip(action) {
   }
 }
 
+export function* getUserTrips(action) {
+  try{
+    const credentials = {
+      email: action.email
+    }
+    const request = yield api.trip.searchTrips(credentials);
+
+    yield put(searchTripAction(request))
+
+  }catch(e) {
+    yield put(tripError(e.response))
+  }
+}
+
+
 export function* oneTrip(action) {
   try{
     const id = action.id

@@ -40,7 +40,6 @@ class TripForm extends Component {
       this.getLocation(from.lat, from.lng, 'locationFrom')
       this.getLocation(to.lat, to.lng, 'locationTo')
     }
-
   }
 
   set initData(value) {
