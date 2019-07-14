@@ -10,7 +10,6 @@ const imageHost = 'http://localhost:8080/'
 
 const ItemTrip = ({data, url, router}) => {
   const ownerPhoto  = imageHost + data.owner.image;
-  console.log(router, '_--__--__-_')
   return (
     <Card fluid>
     <Link to={url}>
@@ -82,7 +81,8 @@ const ItemTrip = ({data, url, router}) => {
 }
 ItemTrip.propTypes = {
   data: PropTypes.shape({}),
-  url: PropTypes.string
+  url: PropTypes.string,
+  router: PropTypes.shape({})
 }
 
 const mapStateToProps = (state, owner) => {

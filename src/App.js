@@ -12,7 +12,8 @@ import OwnTripPage from "./components/pages/OwnTripPage";
 import BookingPage from "./components/pages/BookingPage";
 import CreateTripPage from "./components/pages/CreateTripPage";
 
-import ItemDetail from "./components/grid/ItemDetail";
+import ItemDetailSearched from "./components/grid/ItemDetailSearched";
+import ItemDetailOwner from "./components/grid/ItemDetailOwner";
 
 import ConfirmEntrancePage from "./components/pages/ConfirmEntrancePage";
 import ProfilePage from "./components/pages/ProfilePage";
@@ -26,6 +27,10 @@ import { fetchUserRequest } from "./actions/auth";
 import Loader from "react-loader";
 import TopMenu from "./components/nav/TopMenu";
 import "react-datepicker/dist/react-datepicker.css";
+
+const Test = () => {
+  return '333'
+}
 
 class App extends Component {
   componentWillMount() {
@@ -44,8 +49,8 @@ class App extends Component {
               <Grid.Column center>
                 <div className="ui container">
                   <Router history={history}>
-                    <GuestRoute exact path="/" component={HomePage} />{" "}
-                    <UserRoute path="/profile" component={ProfilePage} />{" "}
+                    <GuestRoute exact path="/" component={HomePage} />
+                    <UserRoute path="/profile" component={ProfilePage} />
                     <UserRoute
                       path="/search-trips"
                       component={SearchTripPage}
@@ -53,24 +58,32 @@ class App extends Component {
                     <UserRoute path="/search-trips" component={SearchTripPage}>
                       <UserRoute
                         path="/search-trips/:hash"
-                        component={ItemDetail}
-                      />{" "}
+                        component={ItemDetailSearched}
+                      />
                     </UserRoute>
+
+                    <UserRoute path="/own-trips" component={OwnTripPage} />
+                      <UserRoute path="/own-trips" component={SearchTripPage}>
+                        <UserRoute
+                          path="/own-trips/:hash"
+                          component={ItemDetailOwner}
+                        />
+                      </UserRoute>
+
                     <UserRoute path="/create-trip" component={CreateTripPage} />
-                    <UserRoute path="/own-trips" component={OwnTripPage} />{" "}
-                    <UserRoute path="/booking" component={BookingPage} />{" "}
-                    <GuestRoute path="/signup" component={SignupPage} />{" "}
-                    <GuestRoute path="/login" component={LoginPage} />{" "}
+                    <UserRoute path="/booking" component={BookingPage} />
+                    <GuestRoute path="/signup" component={SignupPage} />
+                    <GuestRoute path="/login" component={LoginPage} />
                     <PendingConfirmRoute
                       path="/confirmEntrance/:hash"
                       component={ConfirmEntrancePage}
-                    />{" "}
-                  </Router>{" "}
-                </div>{" "}
-              </Grid.Column>{" "}
-            </Grid.Row>{" "}
-          </Grid>{" "}
-        </Loader>{" "}
+                    />
+                  </Router>
+                </div>
+              </Grid.Column>
+            </Grid.Row>
+          </Grid>
+        </Loader>
       </div>
     );
   }

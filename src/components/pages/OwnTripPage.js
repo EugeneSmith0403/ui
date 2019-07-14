@@ -6,25 +6,46 @@ import PropTypes from "prop-types";
 import GridView from "./../grid/GridView";
 import { revieveUserTripsRequest, resetTripAction } from "./../../actions/trip";
 
-// const getOwnerTrips = (trip, userEmail) => {
-//   let currentTrip = trip.filter((item, index) => {
-//     return item.owner.email === userEmail;
-//   });
-//   return currentTrip;
-// };
-
+//TODO REMAKE and get rid of dublicate logics and methods by creating HOC
 class OwnTripPage extends PureComponent {
-  componentWillMount() {
+  state = {
+    isVisibleSearchForm: true
+  }
+  componentDidMount() {
     const email = this.props.userEmail
     if(email) {
       this.props.getOwnerTrips(email)
+      this.setState({
+        isVisibleSearchForm: !this.isRoutingHash()
+      })
     }
   }
+  isRoutingHash = () => {
+    const {pathname} =  this.props.router.location;
+    return !!pathname.split('/')[2];
+  }
+  componentDidUpdate(prevProps) {
+    const isRoutingHash = this.isRoutingHash();
+    if(prevProps.location.pathname !== this.props.location.pathname) {
+      this.setState({
+        isVisibleSearchForm: !isRoutingHash
+      })
+    }
+    // if(prevProps.location.pathname !== this.props.location.pathname && !isRoutingHash) {
+    //   this.props.resetTrip()
+    // }
+  }
   render() {
-    // const trips = getOwnerTrips(this.props.trip, this.props.userEmail);
     return (
       <div>
-        <h1>Own trip page</h1>
+        <h1>Own trip page2</h1>
+        {
+          this.state.isVisibleSearchForm &&
+            <GridView
+              data={this.props.ownerTrip}
+              match={this.props.match.path}/>
+        }
+
       </div>
     );
   }
@@ -32,7 +53,7 @@ class OwnTripPage extends PureComponent {
 
 const mapStateToProps = state => {
   return {
-    trip: state.trip && state.trip.trip,
+    ownerTrip: state.trip && state.ownerTrip.trip,
     router: state.router,
     userEmail: state.user.email
   };

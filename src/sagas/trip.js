@@ -22,9 +22,7 @@ export function* searchTrip(action) {
 
 export function* getUserTrips(action) {
   try{
-    console.log(action, 'saga action')
     const request = yield api.trip.getUserTrips(action.email);
-    console.log(request, '===++====+=+=')
     yield put(revieveUserTrips(request))
 
   }catch(e) {

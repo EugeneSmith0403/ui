@@ -1,8 +1,4 @@
-import React, {Component} from 'react'
-import ItemTrip from './ItemTrip'
-import {connect} from 'react-redux'
-import TableView from './../table'
-import {oneTripRequest} from './../../actions/trip'
+import React from 'react'
 import TripForm from './../../components/forms/TripForm'
 //TODO create action getOneTrip
 
@@ -10,7 +6,7 @@ const getOneTripHelper = (props, id) => {
   return props.trip && !props.trip.length === 0 ? props.getOneTrip(id) : '';
 }
 
-
+//TODO CHECK TOKEN
 const checkEnabled = (email, currentTrip) => {
   return email === currentTrip.owner.email;
 }
@@ -28,11 +24,4 @@ const ItemDetail = (props) => {
 }
 
 
-const mapStateToProps = (state) => {
-  return {
-    trip: state.trip && state.trip.trip,
-    userEmail: state.user.email
-  }
-}
-
-export default connect(mapStateToProps, {getOneTrip: oneTripRequest})(ItemDetail)
+export default ItemDetail

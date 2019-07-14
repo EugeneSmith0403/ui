@@ -19,5 +19,11 @@ const GridView = ({match, data}) => {
     </Card.Group>
   )
 }
+GridView.propTypes = {
+  match: PropTypes.shape({}),
+  data: PropTypes.shape({})
+}
+
+
 
 export default GridView
