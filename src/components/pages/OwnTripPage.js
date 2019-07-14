@@ -4,26 +4,27 @@ import { connect } from "react-redux";
 import { updateProfileRequest } from "./../../actions/user";
 import PropTypes from "prop-types";
 import GridView from "./../grid/GridView";
-import { searchTripRequest, resetTripAction } from "./../../actions/trip";
+import { revieveUserTripsRequest, resetTripAction } from "./../../actions/trip";
 
-const getOwnerTrips = (trip, userEmail) => {
-  let currentTrip = trip.filter((item, index) => {
-    return item.owner.email === userEmail;
-  });
-  return currentTrip;
-};
+// const getOwnerTrips = (trip, userEmail) => {
+//   let currentTrip = trip.filter((item, index) => {
+//     return item.owner.email === userEmail;
+//   });
+//   return currentTrip;
+// };
 
 class OwnTripPage extends PureComponent {
-  componentDidMount() {
-    //getTripByUser
-    //      this.props.searchTrip()
+  componentWillMount() {
+    const email = this.props.userEmail
+    if(email) {
+      this.props.getOwnerTrips(email)
+    }
   }
   render() {
-    const trips = getOwnerTrips(this.props.trip, this.props.userEmail);
+    // const trips = getOwnerTrips(this.props.trip, this.props.userEmail);
     return (
       <div>
         <h1>Own trip page</h1>
-        <GridView data={trips} match={this.props.match.path} />
       </div>
     );
   }
@@ -39,5 +40,5 @@ const mapStateToProps = state => {
 
 export default connect(
   mapStateToProps,
-  { searchTrip: searchTripRequest }
+  { getOwnerTrips: revieveUserTripsRequest }
 )(OwnTripPage);

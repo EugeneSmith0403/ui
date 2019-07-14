@@ -1,4 +1,4 @@
-import { CREATED_TRIP, SEARCHED_TRIP, SEARCHED_ONE_TRIP, RESET_TRIP } from './../types'
+import { CREATED_TRIP, SEARCHED_TRIP, SEARCHED_ONE_TRIP, RESET_TRIP, RECIEVED_USER_TRIP } from './../types'
 
 export default function trip (state = {loaded: false, errors: {}}, action = {}) {
   switch(action.type) {

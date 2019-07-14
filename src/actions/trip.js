@@ -12,14 +12,14 @@ import {
 
 
 
-export const revieveUserTrips = (email) => ({
+export const revieveUserTrips = (data) => ({
   type: RECIEVED_USER_TRIP,
-  email
+  data
 })
 
-export const revieveUserTripsRequest = (data) => ({
+export const revieveUserTripsRequest = (email) => ({
   type: RECIEVED_USER_TRIP_REQUEST,
-  data
+  email
 })
 
 export const searchTripRequest = (data) => ({
