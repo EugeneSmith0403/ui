@@ -1,57 +1,72 @@
-import sendDataWithTokenSaga, { helperSagaRequest } from './utils/sagaCheckToken'
-import { searchTripAction, createTripAction, oneTripAction, revieveUserTrips } from './../actions/trip'
-import {tripError} from './../actions/errors'
-import {call, put} from 'redux-saga/effects'
-import api from './../api'
-
+import sendDataWithTokenSaga, {
+  helperSagaRequest
+} from "./utils/sagaCheckToken";
+import {
+  searchTripAction,
+  createTripAction,
+  oneTripAction,
+  revieveUserTrips,
+  updatedTripAction
+} from "./../actions/trip";
+import { tripError } from "./../actions/errors";
+import { call, put } from "redux-saga/effects";
+import api from "./../api";
 
 export function* searchTrip(action) {
-  try{
+  try {
     const credentials = {
       to: action.data.to,
       from: action.data.from
-    }
+    };
     const request = yield api.trip.searchTrips(credentials);
 
-    yield put(searchTripAction(request))
+    yield put(searchTripAction(request));
+  } catch (e) {
+    yield put(tripError(e.response));
+  }
+}
 
-  }catch(e) {
-    yield put(tripError(e.response))
+export function* updateTrip(action) {
+  try {
+    const { id, data } = action;
+
+    const request = yield api.trip.updateTrip(id, data);
+    yield put(updatedTripAction(request));
+  } catch (e) {
+    console.log(e,'=====+++e')
+    yield put(tripError(e.response));
   }
 }
 
 export function* getUserTrips(action) {
-  try{
+  try {
     const request = yield api.trip.getUserTrips(action.email);
-    yield put(revieveUserTrips(request))
-
-  }catch(e) {
-    yield put(tripError(e.response))
+    yield put(revieveUserTrips(request));
+  } catch (e) {
+    yield put(tripError(e.response));
   }
 }
 
-
 export function* oneTrip(action) {
-  try{
-    const id = action.id
+  try {
+    const id = action.id;
     const request = yield api.trip.getOneTrips(id);
-    yield put(oneTripAction(request))
-
-  }catch(e) {
-    yield put(tripError(e.response))
+    yield put(oneTripAction(request));
+  } catch (e) {
+    yield put(tripError(e.response));
   }
 }
 
 export function* createTrip(action) {
-  try{
+  try {
     const params = {
       ...action.data
-    }
+    };
     yield sendDataWithTokenSaga(
-      helperSagaRequest(api.trip.createTrip, params), createTripAction
-    )
-
-  }catch(e) {
-    yield put(tripError(e.response))
+      helperSagaRequest(api.trip.createTrip, params),
+      createTripAction
+    );
+  } catch (e) {
+    yield put(tripError(e.response));
   }
 }

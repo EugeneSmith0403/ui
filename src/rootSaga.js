@@ -9,7 +9,8 @@ import {
   SEARCHED_TRIP_REQUEST,
   SEARCHED_ONE_TRIP_REQUEST,
   CREATED_TRIP_REQUEST,
-  RECIEVED_USER_TRIP_REQUEST
+  RECIEVED_USER_TRIP_REQUEST,
+  UPDATED_USER_TRIP_REQUEST
 } from './types'
 import {
   signupSaga,
@@ -19,7 +20,7 @@ import {
   logoutSaga,
   updateUserProfileSaga
 } from './sagas/user'
-import {searchTrip,  createTrip, oneTrip, getUserTrips} from './sagas/trip'
+import {searchTrip,  createTrip, oneTrip, getUserTrips, updateTrip} from './sagas/trip'
 
 export default function* rootSagas(action) {
     yield takeLatest(USER_SIGN_UP_REQUEST, signupSaga)
@@ -33,4 +34,6 @@ export default function* rootSagas(action) {
     yield takeLatest(CREATED_TRIP_REQUEST, createTrip)
     yield takeLatest(SEARCHED_ONE_TRIP_REQUEST, oneTrip)
     yield takeLatest(RECIEVED_USER_TRIP_REQUEST, getUserTrips)
+
+    yield takeLatest(UPDATED_USER_TRIP_REQUEST, updateTrip)
 }

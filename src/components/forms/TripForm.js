@@ -20,7 +20,7 @@ class TripForm extends Component {
   _initData: null
   componentWillMount() {
     const trip = this.props.isNew ? {}: this.props.trip
-    const {from, to, dateStart, dateFinished, maxPeople, occupiedPlaces, cost, carModel, carYear} = trip
+    const { _id, from, to, dateStart, dateFinished, maxPeople, occupiedPlaces, cost, carModel, carYear} = trip
     const data = {
       from,
       to,
@@ -30,10 +30,11 @@ class TripForm extends Component {
       occupiedPlaces,
       cost,
       carModel,
-      carYear
+      carYear,
     }
     this.setState({
-      data
+      data,
+      _id
     })
     this._initData = data
     if(!this.props.isNew) {
@@ -114,9 +115,10 @@ class TripForm extends Component {
   onSubmit = () => {
     let data = this.convertDataToForm(this.state.data)
     if(this.isChanged()) {
+
       this._initData = this.state.data;
 
-      this.props.create(this.state.data)
+      this.props.submit(this.state.data, this.state._id)
       this.setState({
         updated: false
       })

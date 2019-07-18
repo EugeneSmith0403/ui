@@ -21,6 +21,8 @@ export default {
       .then(results=>results.data.results),
     createTrip: (credentials) => axios.post('/api/trip/create', credentials)
       .then(result=> result.data.results),
+      updateTrip: (id, data) => axios.put(`/api/trip/update/${id}`, data)
+        .then(result=> result.data.results),
     getUserTrips: (email)=> axios.get(`api/trip/search?email=${email}`)
       .then(results=>results.data.results)
   }

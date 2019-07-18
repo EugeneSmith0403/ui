@@ -7,7 +7,7 @@ const CreatedTripPage = ({ create, trip }) => {
   return (
     <div>
       <h1>Create Page</h1>
-      <TripForm isNew={true} isEnabled={true} create={create} />
+      <TripForm isNew={true} isEnabled={true} submit={create} />
     </div>
   );
 };
