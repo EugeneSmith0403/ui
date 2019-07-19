@@ -1,12 +1,14 @@
 import sendDataWithTokenSaga, {
   helperSagaRequest
 } from "./utils/sagaCheckToken";
+import { push } from 'connected-react-router'
 import {
   searchTripAction,
   createTripAction,
   oneTripAction,
   revieveUserTrips,
-  updatedTripAction
+  updatedTripAction,
+  deleteTripAction
 } from "./../actions/trip";
 import { tripError } from "./../actions/errors";
 import { call, put } from "redux-saga/effects";
@@ -33,10 +35,21 @@ export function* updateTrip(action) {
     const request = yield api.trip.updateTrip(id, data);
     yield put(updatedTripAction(request));
   } catch (e) {
-    console.log(e,'=====+++e')
     yield put(tripError(e.response));
   }
 }
+
+export function* deleteTrip(action) {
+  try {
+    const { id } = action;
+    const request = yield api.trip.deleteTrip(id);
+    yield put(deleteTripAction(request.id));
+    yield put(push('/own-trips'))
+  } catch (e) {
+    yield put(tripError(e.response));
+  }
+}
+
 
 export function* getUserTrips(action) {
   try {

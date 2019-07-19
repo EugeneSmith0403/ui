@@ -5,6 +5,7 @@ import { updateProfileRequest } from "./../../actions/user";
 import PropTypes from "prop-types";
 import GridView from "./../grid/GridView";
 import { revieveUserTripsRequest, resetTripAction } from "./../../actions/trip";
+import {makeGetTrips} from './../../selectors/trips'
 
 //TODO REMAKE and get rid of dublicate logics and methods by creating HOC
 class OwnTripPage extends PureComponent {
@@ -45,19 +46,25 @@ class OwnTripPage extends PureComponent {
               data={this.props.ownerTrip}
               match={this.props.match.path}/>
         }
-
       </div>
     );
   }
 }
 
-const mapStateToProps = state => {
-  return {
-    ownerTrip: state.trip && state.ownerTrip.trip,
-    router: state.router,
-    userEmail: state.user.email
-  };
-};
+
+
+const mapStateToProps = () => {
+ const getTripState = makeGetTrips()
+ const mapStateToProps = (state, props) => {
+   return {
+      ownerTrip: getTripState(state),
+      router: state.router,
+      userEmail: state.user.email
+   }
+  }
+ return mapStateToProps
+}
+
 
 export default connect(
   mapStateToProps,

@@ -9,7 +9,9 @@ import {
   RECIEVED_USER_TRIP,
   RECIEVED_USER_TRIP_REQUEST,
   UPDATED_USER_TRIP,
-  UPDATED_USER_TRIP_REQUEST
+  UPDATED_USER_TRIP_REQUEST,
+  DELETED_USER_TRIP_REQUEST,
+  DELETED_USER_TRIP
 } from './../types'
 
 
@@ -62,6 +64,15 @@ export const updatedTripAction = (data) => ({
   data
 })
 
+export const deleteTripRequest = (id) => ({
+  type: DELETED_USER_TRIP_REQUEST,
+  id
+})
+
+export const deleteTripAction = (id) => ({
+  type: DELETED_USER_TRIP,
+  id
+})
 
 
 export const resetTripAction = () => ({

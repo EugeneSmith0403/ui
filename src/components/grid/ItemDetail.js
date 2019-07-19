@@ -1,12 +1,8 @@
 import React from 'react'
 import TripForm from './../../components/forms/TripForm'
-import {updateTripRequest} from './../../actions/trip'
+import {updateTripRequest, deleteTripRequest} from './../../actions/trip'
 import { connect } from "react-redux";
 //TODO create action getOneTrip
-
-const getOneTripHelper = (props, id) => {
-  return props.trip && !props.trip.length === 0 ? props.getOneTrip(id) : '';
-}
 
 //TODO CHECK TOKEN
 const checkEnabled = (email, currentTrip) => {
@@ -23,9 +19,10 @@ const ItemDetail = (props) => {
   return currentTrip ? <TripForm
     id={id}
     submit={props.update}
+    deleteItem={props.delete}
     isEnabled={checkEnabled(props.userEmail, currentTrip)}
     trip={currentTrip}/> : 'somethings wrong'
 }
 
 
-export default connect(null, {update: updateTripRequest})(ItemDetail)
+export default connect(null, {update: updateTripRequest, delete: deleteTripRequest})(ItemDetail)

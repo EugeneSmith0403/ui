@@ -1,4 +1,4 @@
-import { RECIEVED_USER_TRIP, UPDATED_USER_TRIP } from './../types'
+import { RECIEVED_USER_TRIP, UPDATED_USER_TRIP, DELETED_USER_TRIP } from './../types'
 
 export default function ownerTrip (state = {loaded: false, errors: {}}, action = {}) {
   switch(action.type) {
@@ -28,6 +28,16 @@ export default function ownerTrip (state = {loaded: false, errors: {}}, action =
       ]
       return {
         trip: newArtrip,
+        loaded: true
+      }
+    case DELETED_USER_TRIP:
+      const {id} = action
+      const ownTrip = state.trip;
+      const newTrips = ownTrip.filter((item)=>{
+        return item._id !== id
+      })
+      return {
+        trip: newTrips,
         loaded: true
       }
     default:

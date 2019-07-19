@@ -20,13 +20,13 @@ class TripForm extends Component {
   _initData: null
   componentWillMount() {
     const trip = this.props.isNew ? {}: this.props.trip
-    const { _id, from, to, dateStart, dateFinished, maxPeople, occupiedPlaces, cost, carModel, carYear} = trip
+    const { _id, from, to, dateStart, dateFinished, maxPlaces, occupiedPlaces, cost, carModel, carYear} = trip
     const data = {
       from,
       to,
       dateStart: dateStart && new Date(dateStart) || null,
       dateFinished: dateFinished && new Date(dateFinished) || null,
-      maxPeople,
+      maxPlaces,
       occupiedPlaces,
       cost,
       carModel,
@@ -67,7 +67,7 @@ class TripForm extends Component {
       to: {},
       dateStart: null,
       dateFinished: null,
-      maxPeople: 5,
+      maxPlaces: 5,
       occupiedPlaces: 0,
       cost: 1,
       carModel: ''
@@ -124,6 +124,9 @@ class TripForm extends Component {
       })
     }
   }
+  onDelete = () => {
+    this.props.deleteItem(this.state._id)
+  }
   onChangeStartDate =  (date) => {
       this.setState({
         data: {
@@ -166,7 +169,7 @@ class TripForm extends Component {
       to,
       dateStart,
       dateFinished,
-      maxPeople,
+      maxPlaces,
       occupiedPlaces,
       cost, carModel, carYear} = this.state.data
     return(
@@ -250,11 +253,11 @@ class TripForm extends Component {
             <Grid.Column>
             <EnabledInput isEnabled={this.props.isEnabled}>
               <Form.Input
-                name='maxPeople'
+                name='maxPlaces'
                 type="text"
-                value={maxPeople}
-                onChange={this.onChange}
-                placeholder='maxPeople' />
+                value={maxPlaces}
+                onChange={this.onChangeNumber}
+                placeholder='maxPlaces' />
               </EnabledInput>
              </Grid.Column>
            </Grid.Row>
@@ -312,7 +315,8 @@ class TripForm extends Component {
         <Grid.Row>
           <Grid.Column>
 
-            {this.props.isEnabled && <Button>Update</Button> }
+            {this.props.isEnabled && <Button>{this.props.isNew ? 'Create': 'Update' }</Button> }
+            {this.props.isEnabled && !this.props.isNew && <Button onClick={this.onDelete}>Delete</Button> }
           </Grid.Column>
         </Grid.Row>
       </Grid>

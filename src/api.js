@@ -23,6 +23,8 @@ export default {
       .then(result=> result.data.results),
       updateTrip: (id, data) => axios.put(`/api/trip/update/${id}`, data)
         .then(result=> result.data.results),
+    deleteTrip: (id) => axios.delete(`/api/trip/delete/${id}`)
+        .then(result=> result.data.results),
     getUserTrips: (email)=> axios.get(`api/trip/search?email=${email}`)
       .then(results=>results.data.results)
   }
